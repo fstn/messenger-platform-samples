@@ -1,5 +1,5 @@
 {
-    "appSecret": "",
-    "pageAccessToken": "",
+    "appSecret": "test",
+    "pageAccessToken": "test",
     "validationToken": "test"
 }
