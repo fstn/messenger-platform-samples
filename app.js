@@ -16,7 +16,14 @@ const
   crypto = require('crypto'),
   express = require('express'),
   https = require('https'),  
-  request = require('request');
+  request = require('request'),
+  apiai = require('apiai');
+
+/*
+ * Be sure to setup your config values before running this code. You can
+ * set them using environment variables or modifying the config file in /config.
+ *
+ */
 
 var app = express();
 
@@ -24,11 +31,13 @@ app.set('port', process.env.PORT || 5000);
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
 
-/*
- * Be sure to setup your config values before running this code. You can 
- * set them using environment variables or modifying the config file in /config.
- *
- */
+
+
+// App Secret can be retrieved from the App Dashboard
+const APP_APIAP = (process.env.MESSENGER_APP_SECRET) ?
+    process.env.MESSENGER_APP_SECRET :
+    config.get('apiaiKey');
+
 
 // App Secret can be retrieved from the App Dashboard
 const APP_SECRET = (process.env.MESSENGER_APP_SECRET) ? 
@@ -312,19 +321,20 @@ function sendImageMessage(sender) {
  *
  */
 function sendTextMessage(recipientId, messageText) {
-
-  callUserAPI(function(user){
-    var messageData = {
-      recipient: {
-        id: recipientId
-      },
-      message: {
-        text: "Bonjour "+user.first_name+" "+messageText
-      }
-    };
-
-    callSendAPI(messageData);
-  });
+  callIA(messageText,function(response) {
+    var msg = response.result.fulfillment.speech
+    callUserAPI(function(user){
+      var messageData = {
+        recipient: {
+          id: recipientId
+        },
+        message: {
+          text: user.first_name+", "+msg
+        }
+      };
+      callSendAPI(messageData);
+    });
+  })
 
 }
 
@@ -475,6 +485,24 @@ function sendReceiptMessage(recipientId) {
   };
 
   callSendAPI(messageData);
+}
+
+function callIA(message,callBack){
+
+  var aiapi = apiai(APP_APIAP);
+  aiapi.language="FR";
+  var request = aiapi.textRequest(message);
+
+  request.on('response', function(response) {
+    console.log(response);
+    callBack(response);
+  });
+
+  request.on('error', function(error) {
+    console.log(error);
+  });
+
+  request.end()
 }
 
 
