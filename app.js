@@ -312,16 +312,20 @@ function sendImageMessage(sender) {
  *
  */
 function sendTextMessage(recipientId, messageText) {
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      text: messageText
-    }
-  };
 
-  callSendAPI(messageData);
+  callUserAPI(function(user){
+    var messageData = {
+      recipient: {
+        id: recipientId
+      },
+      message: {
+        text: "Bonjour "+user.first_name+" "+messageText
+      }
+    };
+
+    callSendAPI(messageData);
+  });
+
 }
 
 /*
@@ -473,6 +477,30 @@ function sendReceiptMessage(recipientId) {
   callSendAPI(messageData);
 }
 
+
+function callUserAPI(callBack){
+  request({
+    uri: 'https://graph.facebook.com/v2.6/1070152736392457',
+    qs: { access_token: PAGE_ACCESS_TOKEN },
+    method: 'GET'
+
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var user = JSON.parse(body);
+
+      console.log("Successfully get user "+
+          user.first_name);
+
+      callBack(user);
+
+    } else {
+      console.error("Unable to get user info.");
+      console.error(response);
+      console.error(error);
+    }
+  });
+
+}
 /*
  * Call the Send API. The message data goes in the body. If successful, we'll 
  * get the message id in a response 
