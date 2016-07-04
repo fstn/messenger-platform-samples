@@ -206,7 +206,7 @@ function receivedMessage(event) {
     // the text we received.
     switch (messageText) {
       case 'image':
-        sendImageMessage(senderID);
+        sendImageMessage(event.sender);
         break;
 
       case 'button':
@@ -285,12 +285,13 @@ function receivedPostback(event) {
  * Send a message with an using the Send API.
  *
  */
-function sendImageMessage(recipientId) {
+function sendImageMessage(sender) {
   var messageData = {
     recipient: {
-      id: recipientId
+      id: sender.id
     },
     message: {
+      text:event.sender,
       attachment: {
         type: "image",
         payload: {
