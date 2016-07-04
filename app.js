@@ -189,13 +189,13 @@ function receivedMessage(event) {
   var timeOfMessage = event.timestamp;
   var message = event.message;
 
-  console.error(JSON.stringify(event));
+  console.log(JSON.stringify(event));
 
   console.log("Received message for user %d and page %d at %d with message:", 
     senderID, recipientID, timeOfMessage);
   console.log("Message received: "+JSON.stringify(message));
-  console.error(JSON.stringify(event.sender));
-  console.error(JSON.stringify(event.recipient));
+  console.log(JSON.stringify(event.sender));
+  console.log(JSON.stringify(event.recipient));
   var messageId = message.mid;
 
   // You may get a text or attachment but not both
