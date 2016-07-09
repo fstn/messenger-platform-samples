@@ -32,6 +32,8 @@ app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use(express.static('public'));
 
 
+var sessions = {};
+
 
 // App Secret can be retrieved from the App Dashboard
 const APP_APIAP = (process.env.MESSENGER_APP_SECRET) ?
@@ -320,41 +322,21 @@ function sendImageMessage(sender) {
  * Send a text message using the Send API.
  *
  */
+
 function sendTextMessage(recipientId, messageText) {
-  callUserAPI(function (user) {
 
-    var isbn = "";
-    var page = "";
-    var ex = "";
-    var isbnPattern =  new RegExp("((?:[0-9]-?){10,20})");
-    var isbnMatcher = isbnPattern.exec(messageText);
-    if (isbnMatcher!= null && isbnMatcher.length >1 ){
-      isbn = isbnMatcher[1];
-      console.log("ISBN Number is valid and number is : "+isbnMatcher[1]);
-    }
-    var pagePattern = new RegExp("(?:(?:page)|(?:Page)|(?:p))[^0-9]*([0-9]{1,3})");
-    var pageMatcher = pagePattern.exec(messageText);
-    if (pageMatcher!= null && pageMatcher.length >1 ){
-      page = pageMatcher[1];
-      console.log("Page Number is valid and number is : "+pageMatcher[1]);
-    }
-    var exPattern = new RegExp("(?:(?:ex)|(?:Ex)|(?:exo)|(?:Exo)|(?:Exercice)|(?:ex))[^0-9]*([0-9]{1,3})");
-    var exMatcher = exPattern.exec(messageText);
-    if (exMatcher!= null && exMatcher.length >1 ){
-      ex = exMatcher[1];
-      console.log("Exercice Number is valid and number is : "+exMatcher[1]);
-    }
-    var messageData = {
-      recipient: {
-        id: recipientId
-      },
-      message: {
-        text: "ISBN: " + isbn + " PAGE: " + page + " EX: " + ex
-      }
-    }
-    callSendAPI(messageData);
 
-    /*
+  if (typeof sessions[recipientId] == 'undefined') {
+    callUserAPI(function (user) {
+      sessions[recipientId] = {user: user, isbn: '', page: '', ex: '', lastOutput: ''}
+      reply(recipientId, messageText);
+    });
+  } else {
+    reply(recipientId, messageText);
+    }
+
+
+  /*
     callIA("Je suis" + user.first_name + " " + messageText, function (response) {
           var msg = response.result.fulfillment.speech
 
@@ -371,8 +353,86 @@ function sendTextMessage(recipientId, messageText) {
         }
     )*/
     ;
-  })
 };
+
+function reply(recipientId, messageText) {
+  var text;
+  switch (sessions[recipientId].lastOutput) {
+    case '':
+      var isbnPattern = new RegExp("((?:[0-9]-?){10,20})");
+      var isbnMatcher = isbnPattern.exec(messageText);
+      if (isbnMatcher != null && isbnMatcher.length > 1) {
+        sessions[recipientId].isbn = isbnMatcher[1];
+        console.log("ISBN Number is valid and number is : " + isbnMatcher[1]);
+      }
+      var pagePattern = new RegExp("(?:(?:page)|(?:Page)|(?:p))[^0-9]*([0-9]{1,3})");
+      var pageMatcher = pagePattern.exec(messageText);
+      if (pageMatcher != null && pageMatcher.length > 1) {
+        sessions[recipientId].page = pageMatcher[1];
+        console.log("Page Number is valid and number is : " + pageMatcher[1]);
+      }
+      var exPattern = new RegExp("(?:(?:ex)|(?:Ex)|(?:exo)|(?:Exo)|(?:Exercice)|(?:ex))[^0-9]*([0-9]{1,3})");
+      var exMatcher = exPattern.exec(messageText);
+      if (exMatcher != null && exMatcher.length > 1) {
+        sessions[recipientId].ex = exMatcher[1];
+        console.log("Exercice Number is valid and number is : " + exMatcher[1]);
+      }
+      break;
+    case 'isbn':
+      var isbnPattern = new RegExp("((?:[0-9]-?){10,20})");
+      var isbnMatcher = isbnPattern.exec(messageText);
+      if (isbnMatcher != null && isbnMatcher.length > 1) {
+        sessions[recipientId].isbn = isbnMatcher[1];
+        console.log("ISBN Number is valid and number is : " + isbnMatcher[1]);
+      }
+      break;
+    case
+    'page'
+    :
+      var pagePattern = new RegExp("([0-9]{1,3})");
+      var pageMatcher = pagePattern.exec(messageText);
+      if (pageMatcher != null && pageMatcher.length > 1) {
+        sessions[recipientId].page = pageMatcher[1];
+        console.log("Page Number is valid and number is : " + pageMatcher[1]);
+      }
+      break;
+    case
+    'ex'
+    :
+      var exPattern = new RegExp("([0-9]{1,3})");
+      var exMatcher = exPattern.exec(messageText);
+      if (exMatcher != null && exMatcher.length > 1) {
+        sessions[recipientId].ex = exMatcher[1];
+        console.log("Exercice Number is valid and number is : " + exMatcher[1]);
+      }
+      break;
+  }
+
+  if (sessions[recipientId].isbn == '') {
+    text = "Bonjour " + sessions[recipientId].user.first_name + ",pour pouvoir t'aider, j'ai besoin du numéro ISBN de ton livre, il se trouve au niveau du code barre de ton livre. "
+    sessions[recipientId].lastOutput = 'isbn';
+  } else if (sessions[recipientId].page == '') {
+    text = "Peux tu me donner le numéro de la page de ton exercice stp?"
+    sessions[recipientId].lastOutput = 'page';
+  } else if (sessions[recipientId].ex == '') {
+    text = "Peux tu me donner le numéro de ton exercice stp?"
+    sessions[recipientId].lastOutput = 'ex';
+  } else {
+    sessions[recipientId].lastOutput = '';
+    text = "Tadam! ISBN: " + sessions[recipientId].isbn + " PAGE: " + sessions[recipientId].page + " EX: " + sessions[recipientId].ex;
+    text+= "Est-ce que la solution te convient?"
+    sessions[recipientId] = {user: sessions[recipientId].user, isbn: '', page: '', ex: '', lastOutput: ''}
+  }
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: text
+    }
+  }
+  callSendAPI(messageData);
+}
 
 
 /*
