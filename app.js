@@ -321,22 +321,59 @@ function sendImageMessage(sender) {
  *
  */
 function sendTextMessage(recipientId, messageText) {
-  callIA(messageText,function(response) {
-    var msg = response.result.fulfillment.speech
-    callUserAPI(function(user){
-      var messageData = {
-        recipient: {
-          id: recipientId
-        },
-        message: {
-          text: user.first_name+", "+msg
-        }
-      };
-      callSendAPI(messageData);
-    });
-  })
+  callUserAPI(function (user) {
 
-}
+    var isbn = "";
+    var page = "";
+    var ex = "";
+    var isbnPattern =  new RegExp("((?:[0-9]-?){10,20})");
+    var isbnMatcher = isbnPattern.exec(messageText);
+    if (isbnMatcher!= null && isbnMatcher.length >1 ){
+      isbn = isbnMatcher[1];
+      console.log("ISBN Number is valid and number is : "+isbnMatcher[1]);
+    }
+    var pagePattern = new RegExp("(?:(?:page)|(?:Page)|(?:p))[^0-9]*([0-9]{1,3})");
+    var pageMatcher = pagePattern.exec(messageText);
+    if (pageMatcher!= null && pageMatcher.length >1 ){
+      page = pageMatcher[1];
+      console.log("Page Number is valid and number is : "+pageMatcher[1]);
+    }
+    var exPattern = new RegExp("(?:(?:ex)|(?:Ex)|(?:exo)|(?:Exo)|(?:Exercice)|(?:ex))[^0-9]*([0-9]{1,3})");
+    var exMatcher = exPattern.exec(messageText);
+    if (exMatcher!= null && exMatcher.length >1 ){
+      ex = exMatcher[1];
+      console.log("Exercice Number is valid and number is : "+exMatcher[1]);
+    }
+    var messageData = {
+      recipient: {
+        id: recipientId
+      },
+      message: {
+        text: "ISBN: " + isbn + " PAGE: " + page + " EX: " + ex
+      }
+    }
+    callSendAPI(messageData);
+
+    /*
+    callIA("Je suis" + user.first_name + " " + messageText, function (response) {
+          var msg = response.result.fulfillment.speech
+
+
+          var messageData = {
+            recipient: {
+              id: recipientId
+            },
+            message: {
+              text: msg
+            }
+        }
+          callSendAPI(messageData);
+        }
+    )*/
+    ;
+  })
+};
+
 
 /*
  * Send a button message using the Send API.
@@ -386,9 +423,8 @@ function sendGenericMessage(recipientId) {
           template_type: "generic",
           elements: [{
             title: "rift",
-            subtitle: "Next-generation virtual reality",
-            item_url: "https://www.oculus.com/en-us/rift/",               
-            image_url: "http://messengerdemo.parseapp.com/img/rift.png",
+            subtitle: "Correct",
+            image_url: "https://www.dropbox.com/s/nsyzfgjiuwr7n9q/9782091724935-248A.jpg?dl=0",
             buttons: [{
               type: "web_url",
               url: "https://www.oculus.com/en-us/rift/",
@@ -400,9 +436,8 @@ function sendGenericMessage(recipientId) {
             }],
           }, {
             title: "touch",
-            subtitle: "Your Hands, Now in VR",
-            item_url: "https://www.oculus.com/en-us/touch/",               
-            image_url: "http://messengerdemo.parseapp.com/img/touch.png",
+            subtitle: "Correct",
+            image_url: "https://www.dropbox.com/s/nsyzfgjiuwr7n9q/9782091724935-248A.jpg?dl=0",
             buttons: [{
               type: "web_url",
               url: "https://www.oculus.com/en-us/touch/",
