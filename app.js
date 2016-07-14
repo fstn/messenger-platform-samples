@@ -29,7 +29,8 @@ var app = express();
 
 app.set('port', process.env.PORT || 5000);
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
-app.use(express.static('public'));
+app.use('/static', express.static('public'));
+
 
 
 var sessions = {};
@@ -300,7 +301,7 @@ function receivedPostback(event) {
  * Send a message with an using the Send API.
  *
  */
-function sendImageMessage(sender) {
+function sendImageMessage(sender, isbn, page, ex) {
   var messageData = {
     recipient: {
       id: sender.id
@@ -309,7 +310,7 @@ function sendImageMessage(sender) {
       attachment: {
         type: "image",
         payload: {
-          url: "http://i.imgur.com/zYIlgBl.png"
+          url: "https://webhookpeter.herokuapp.com/static/" + isbn + "/" + page + "/" + ex + ".PNG"
         }
       }
     }
@@ -362,8 +363,11 @@ function reply(recipientId, messageText) {
       var isbnPattern = new RegExp("((?:[0-9]-?){10,20})");
       var isbnMatcher = isbnPattern.exec(messageText);
       if (isbnMatcher != null && isbnMatcher.length > 1) {
-        sessions[recipientId].isbn = isbnMatcher[1];
-        console.log("ISBN Number is valid and number is : " + isbnMatcher[1]);
+        var tmpIsbn = isbnMatcher[1]
+        tmpIsbn = tmpIsbn.replace(/-/g, "");
+        tmpIsbn = tmpIsbn.replace(' ', '');
+        sessions[recipientId].isbn = tmpIsbn;
+        console.log("ISBN Number is valid and number is : " + tmpIsbn);
       }
       var pagePattern = new RegExp("(?:(?:page)|(?:Page)|(?:p))[^0-9]*([0-9]{1,3})");
       var pageMatcher = pagePattern.exec(messageText);
@@ -382,8 +386,11 @@ function reply(recipientId, messageText) {
       var isbnPattern = new RegExp("((?:[0-9]-?){10,20})");
       var isbnMatcher = isbnPattern.exec(messageText);
       if (isbnMatcher != null && isbnMatcher.length > 1) {
-        sessions[recipientId].isbn = isbnMatcher[1];
-        console.log("ISBN Number is valid and number is : " + isbnMatcher[1]);
+        var tmpIsbn = isbnMatcher[1];
+        tmpIsbn = tmpIsbn.replace(/-/g, "");
+        tmpIsbn = tmpIsbn.replace(' ', '');
+        sessions[recipientId].isbn = tmpIsbn;
+        console.log("ISBN Number is valid and number is : " + tmpIsbn);
       }
       break;
     case
@@ -420,8 +427,10 @@ function reply(recipientId, messageText) {
   } else {
     sessions[recipientId].lastOutput = '';
     text = "Tadam! ISBN: " + sessions[recipientId].isbn + " PAGE: " + sessions[recipientId].page + " EX: " + sessions[recipientId].ex;
-    text+= "Est-ce que la solution te convient?"
+    text += " Est-ce que la solution te convient?";
+    sendImageMessage(recipientId, sessions[recipientId].isbn, sessions[recipientId].page, sessions[recipientId].ex)
     sessions[recipientId] = {user: sessions[recipientId].user, isbn: '', page: '', ex: '', lastOutput: ''}
+
   }
   var messageData = {
     recipient: {
