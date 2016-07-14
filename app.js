@@ -430,8 +430,6 @@ function reply(recipientId, messageText) {
     text += " Est-ce que la solution te convient?";
     sendImageMessage(recipientId, sessions[recipientId].isbn, sessions[recipientId].page, sessions[recipientId].ex)
     sessions[recipientId] = {user: sessions[recipientId].user, isbn: '', page: '', ex: '', lastOutput: ''}
-
-    return;
   }
   var messageData = {
     recipient: {
