@@ -304,7 +304,7 @@ function receivedPostback(event) {
 function sendImageMessage(sender, isbn, page, ex) {
   var messageData = {
     recipient: {
-      id: sender.id
+      id: sender
     },
     message: {
       attachment: {
@@ -431,6 +431,7 @@ function reply(recipientId, messageText) {
     sendImageMessage(recipientId, sessions[recipientId].isbn, sessions[recipientId].page, sessions[recipientId].ex)
     sessions[recipientId] = {user: sessions[recipientId].user, isbn: '', page: '', ex: '', lastOutput: ''}
 
+    return;
   }
   var messageData = {
     recipient: {
