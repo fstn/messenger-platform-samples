@@ -328,7 +328,7 @@ function sendTextMessage(recipientId, messageText) {
 
 
   if (typeof sessions[recipientId] == 'undefined') {
-    callUserAPI(function (user) {
+    callUserAPI(recipientId,function (user) {
       sessions[recipientId] = {user: user, isbn: '', page: '', ex: '', lastOutput: ''}
       reply(recipientId, messageText);
     });
@@ -609,9 +609,9 @@ function callIA(message,callBack){
 }
 
 
-function callUserAPI(callBack){
+function callUserAPI(senderId,callBack){
   request({
-    uri: 'https://graph.facebook.com/v2.6/1070152736392457',
+    uri: 'https://graph.facebook.com/v2.6/'+senderId,
     qs: { access_token: PAGE_ACCESS_TOKEN },
     method: 'GET'
 
@@ -628,6 +628,8 @@ function callUserAPI(callBack){
       console.error("Unable to get user info.");
       console.error(response);
       console.error(error);
+
+      callBack({first_name:"unable to find user"});
     }
   });
 
