@@ -31,8 +31,7 @@ app.set('port', process.env.PORT || 5000);
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
 app.use('/static', express.static('public'));
 
-
-
+var msg = config.get('text');
 var sessions = {};
 
 
@@ -329,7 +328,7 @@ function sendTextMessage(recipientId, messageText) {
 
   if (typeof sessions[recipientId] == 'undefined') {
     callUserAPI(recipientId,function (user) {
-      sessions[recipientId] = {user: user, isbn: '', page: '', ex: '', lastOutput: ''}
+      sessions[recipientId] = {user: user, isbn: '', page: '', ex: '', lastOutput: '', nbTry: 0}
       reply(recipientId, messageText);
     });
   } else {
@@ -368,18 +367,24 @@ function reply(recipientId, messageText) {
         tmpIsbn = tmpIsbn.replace(' ', '');
         sessions[recipientId].isbn = tmpIsbn;
         console.log("ISBN Number is valid and number is : " + tmpIsbn);
+      } else {
+        sessions[recipientId].nbTry++;
       }
       var pagePattern = new RegExp("(?:(?:page)|(?:p)|(?:P))[^0-9]*([0-9]{1,3})","i");
       var pageMatcher = pagePattern.exec(messageText);
       if (pageMatcher != null && pageMatcher.length > 1) {
         sessions[recipientId].page = pageMatcher[1];
         console.log("Page Number is valid and number is : " + pageMatcher[1]);
+      } else {
+        sessions[recipientId].nbTry++;
       }
       var exPattern = new RegExp("(?:(?:ex)|(?:Ex)|(?:exo)|(?:Exo)|(?:Exercice))[^0-9]*([0-9]{1,3})","i");
       var exMatcher = exPattern.exec(messageText);
       if (exMatcher != null && exMatcher.length > 1) {
         sessions[recipientId].ex = exMatcher[1];
         console.log("Exercice Number is valid and number is : " + exMatcher[1]);
+      } else {
+        sessions[recipientId].nbTry++;
       }
       break;
     case 'isbn':
@@ -415,19 +420,37 @@ function reply(recipientId, messageText) {
       break;
   }
 
+
   if (sessions[recipientId].isbn == '') {
-    text = "Bonjour " + sessions[recipientId].user.first_name + ",pour pouvoir t'aider, j'ai besoin du numéro ISBN de ton livre, il se trouve au niveau du code barre de ton livre. "
+    text = msg.hello.sort(function () {
+      return Math.random() - 0.5;
+    })[0];
+
+    text = text.replace("#NAME#", sessions[recipientId].user.first_name);
+
     sessions[recipientId].lastOutput = 'isbn';
   } else if (sessions[recipientId].page == '') {
-    text = "Peux tu me donner le numéro de la page de ton exercice stp?"
+    text = msg.page.sort(function () {
+      return Math.random() - 0.5;
+    })[0];
     sessions[recipientId].lastOutput = 'page';
   } else if (sessions[recipientId].ex == '') {
-    text = "Peux tu me donner le numéro de ton exercice stp?"
+    text = msg.exercise.sort(function () {
+      return Math.random() - 0.5;
+    })[0];
     sessions[recipientId].lastOutput = 'ex';
   } else {
     sessions[recipientId].lastOutput = '';
-    text = "Tadam! ISBN: " + sessions[recipientId].isbn + " PAGE: " + sessions[recipientId].page + " EX: " + sessions[recipientId].ex;
-    text += " Est-ce que la solution te convient?";
+    text = msg.result.sort(function () {
+      return Math.random() - 0.5;
+    })[0];
+    text = text.replace("#ISBN#", sessions[recipientId].isbn);
+    text = text.replace("#PAGE#", sessions[recipientId].page);
+    text = text.replace("#EX#", sessions[recipientId].ex);
+    text += text.isOk.sort(function () {
+      return Math.random() - 0.5;
+    })[0];
+    ;
     sendImageMessage(recipientId, sessions[recipientId].isbn, sessions[recipientId].page, sessions[recipientId].ex)
     sessions[recipientId] = {user: sessions[recipientId].user, isbn: '', page: '', ex: '', lastOutput: ''}
   }

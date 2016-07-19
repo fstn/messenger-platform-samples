@@ -1,6 +1,20 @@
 {
-    "appSecret": "6dfb645e521dd02f70a3566e57ec7597",
-    "pageAccessToken": "EAAIjuzwKwZBoBAFp5N1WJJZAYPUgbDst7Lk236JO2qFl1PbVQ9y2w3bNWM1csnAwHPtKisnm3hVzUGrckdQ5qctunPAxdnceV5byZAgIDkbbuhsEYPEUsdTgDu3G3kZCEntIpb7ly3BWZALUXAiBXgI6u9eXlYY6ZCZB4QCo9O6uwZDZD",
+    "appSecret": "20871d7432ec01e753ba419538ffc612",
+    "pageAccessToken": "EAAWOsXv51FUBAHr9Lj3ZCrIwZAMQxDRtnbBbZCn02TTjRJ1pAYP5Hc0bcb7jdVZA56FsqDYhtLHkG2oAhu5Hcw2zNKhY99BeptrE8mvOZBvfNMn2AkluqHjwDefm6ZAcXvJIiL0yfn05OO3JfhA7rHCvu3VqB3BVvDVNUwwTyxhAZDZD",
     "validationToken": "test",
-    "apiaiKey":"d0779c3c911a41a0a4a09e52426bc97d"
+    "apiaiKey":"d0779c3c911a41a0a4a09e52426bc97d",
+	"text" : {
+		"hello": ["Salut #NAME# ;) je m'appelle Peter et je suis là pour t'aider à faire tes devoirs ! Ecris-moi l'ISBN de ton livre suivi du numéro de la page et de ton exercice pour que je puisse chercher les réponses à tes devoirs !",
+		  "Bonjour #NAME#, pour pouvoir t'aider, j'ai besoin du numéro ISBN de ton livre, il se trouve au niveau du code barre de ton livre. "
+		],
+		"page": ["Peux tu me donner le numéro de la page de ton exercice stp?",
+		  "Maintenant que j'ai l'ISBN, j'ai besoin d'avoir le numéro de page stp"],
+		"exercise": ["Peux tu me donner le numéro de ton exercice stp?"],
+		"result": ["Tadam! ISBN: #ISBN# PAGE: #PAGE# EX: #EX#",
+		  "Et voila ;)"],
+		"isOk": ["Est-ce que la solution te convient?",
+		  "C'est bien ce que tu cherchais?"],
+		"bye": ["A bientôt",
+		  "Reviens quand tu veux ;)"]
+	  }
 }
