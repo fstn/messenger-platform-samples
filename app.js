@@ -360,7 +360,7 @@ function reply(recipientId, messageText) {
   var text;
   switch (sessions[recipientId].lastOutput) {
     case '':
-      var isbnPattern = new RegExp("((?:[0-9]-?){10,20})");
+      var isbnPattern = new RegExp("((?:[0-9]-?){10,20})","i");
       var isbnMatcher = isbnPattern.exec(messageText);
       if (isbnMatcher != null && isbnMatcher.length > 1) {
         var tmpIsbn = isbnMatcher[1]
@@ -369,13 +369,13 @@ function reply(recipientId, messageText) {
         sessions[recipientId].isbn = tmpIsbn;
         console.log("ISBN Number is valid and number is : " + tmpIsbn);
       }
-      var pagePattern = new RegExp("(?:(?:page)|(?:Page)|(?:p))[^0-9]*([0-9]{1,3})");
+      var pagePattern = new RegExp("(?:(?:page)|(?:p)|(?:P))[^0-9]*([0-9]{1,3})","i");
       var pageMatcher = pagePattern.exec(messageText);
       if (pageMatcher != null && pageMatcher.length > 1) {
         sessions[recipientId].page = pageMatcher[1];
         console.log("Page Number is valid and number is : " + pageMatcher[1]);
       }
-      var exPattern = new RegExp("(?:(?:ex)|(?:Ex)|(?:exo)|(?:Exo)|(?:Exercice)|(?:ex))[^0-9]*([0-9]{1,3})");
+      var exPattern = new RegExp("(?:(?:ex)|(?:Ex)|(?:exo)|(?:Exo)|(?:Exercice))[^0-9]*([0-9]{1,3})","i");
       var exMatcher = exPattern.exec(messageText);
       if (exMatcher != null && exMatcher.length > 1) {
         sessions[recipientId].ex = exMatcher[1];
@@ -383,7 +383,7 @@ function reply(recipientId, messageText) {
       }
       break;
     case 'isbn':
-      var isbnPattern = new RegExp("((?:[0-9]-?){10,20})");
+      var isbnPattern = new RegExp("((?:[0-9]-?){10,20})","i");
       var isbnMatcher = isbnPattern.exec(messageText);
       if (isbnMatcher != null && isbnMatcher.length > 1) {
         var tmpIsbn = isbnMatcher[1];
@@ -396,7 +396,7 @@ function reply(recipientId, messageText) {
     case
     'page'
     :
-      var pagePattern = new RegExp("([0-9]{1,3})");
+      var pagePattern = new RegExp("([0-9]{1,3})","i");
       var pageMatcher = pagePattern.exec(messageText);
       if (pageMatcher != null && pageMatcher.length > 1) {
         sessions[recipientId].page = pageMatcher[1];
@@ -406,7 +406,7 @@ function reply(recipientId, messageText) {
     case
     'ex'
     :
-      var exPattern = new RegExp("([0-9]{1,3})");
+      var exPattern = new RegExp("([0-9]{1,3})","i");
       var exMatcher = exPattern.exec(messageText);
       if (exMatcher != null && exMatcher.length > 1) {
         sessions[recipientId].ex = exMatcher[1];
@@ -611,7 +611,7 @@ function callIA(message,callBack){
 
 function callUserAPI(senderId,callBack){
   request({
-    uri: 'https://graph.facebook.com/v2.6/'+senderId,
+    uri: 'https://graph.facebook.com/v2.7/'+senderId,
     qs: { access_token: PAGE_ACCESS_TOKEN },
     method: 'GET'
 
@@ -641,7 +641,7 @@ function callUserAPI(senderId,callBack){
  */
 function callSendAPI(messageData) {
   request({
-    uri: 'https://graph.facebook.com/v2.6/me/messages',
+    uri: 'https://graph.facebook.com/v2.7/me/messages',
     qs: { access_token: PAGE_ACCESS_TOKEN },
     method: 'POST',
     json: messageData
