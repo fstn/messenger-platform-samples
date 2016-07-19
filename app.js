@@ -447,7 +447,7 @@ function reply(recipientId, messageText) {
     text = text.replace("#ISBN#", sessions[recipientId].isbn);
     text = text.replace("#PAGE#", sessions[recipientId].page);
     text = text.replace("#EX#", sessions[recipientId].ex);
-    text += text.isOk.sort(function () {
+    text += msg.isOk.sort(function () {
       return Math.random() - 0.5;
     })[0];
     ;
