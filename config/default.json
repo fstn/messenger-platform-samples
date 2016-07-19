@@ -4,19 +4,19 @@
     "validationToken": "test",
     "apiaiKey":"d0779c3c911a41a0a4a09e52426bc97d",
 	"text" : {
-		"hello": ["Salut #NAME# ;) je m'appelle Peter et je suis là pour t'aider à faire tes devoirs ! Ecris-moi l'ISBN de ton livre suivi du numéro de la page et de ton exercice pour que je puisse chercher les réponses à tes devoirs !",
+		"hello": ["Salut #NAME# ;) je m'appelle Peter et je suis là pour t'aider à faire tes devoirs ! Donne moi l'ISBN de ton livre suivi du numéro de la page et de ton exercice pour que je puisse chercher les réponses à tes devoirs !",
 			"Bonjour #NAME#, pour pouvoir t'aider, j'ai besoin du numéro ISBN de ton livre, il se trouve au niveau du code barre de ton livre. ",
 			"Salut #NAME#, merci de m'avoir ajouté en ami. Si tu as besoin d'aide pour tes devoirs, envoie moi simplement le numéro ISBN de ton livre, la page et le numéro de ton exercice. N'hésite pas à en parler à tes amis, Peter",
 			"Bonjour #NAME# ! Besoin d'aide ? Donne moi l'ISBN de ton livre suivi du numéro de la page et de l'exercice et je m'occupe du reste ;)",
 			"Salut #NAME# ! Je m'appelle Peter et je suis là pour t'aider à faire tes devoirs. Pour cela, il faut que tu me donnes l'ISBN de ton livre, tu le trouveras près du code barre."
 		],
-		"page": ["Peux tu me donner le numéro de la page de ton exercice stp?",
-		  "Maintenant que j'ai l'ISBN, j'ai besoin d'avoir le numéro de page stp"],
-		"exercise": ["Peux tu me donner le numéro de ton exercice stp?"],
+		"page": ["Peux tu me donner le numéro de la page de ton exercice s'il te plait ?",
+		  "Maintenant que j'ai l'ISBN, j'ai besoin d'avoir le numéro de page s'il te plait."],
+		"exercise": ["Peux-tu me donner le numéro de ton exercice s'il te plait ?"],
 		"result": ["Tadam! ISBN: #ISBN# PAGE: #PAGE# EX: #EX#",
 		  "Et voila ;)"],
-		"isOk": ["Est-ce que la solution te convient?",
-		  "C'est bien ce que tu cherchais?"],
+		"isOk": ["Est-ce que la solution te convient ?",
+		  "C'est bien ce que tu cherchais ?"],
 		"bye": ["A bientôt",
 		  "Reviens quand tu veux ;)"]
 	  }
