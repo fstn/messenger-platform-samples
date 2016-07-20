@@ -134,6 +134,8 @@ app.post('/webhook', function (req, res) {
  *
  */
 function verifyRequestSignature(req, res, buf) {
+
+  console.info(req+" "+res);
   var signature = req.headers["x-hub-signature"];
 
   if (!signature) {
@@ -289,7 +291,7 @@ function sendImageMessage(sender, isbn, page, ex) {
       attachment: {
         type: "image",
         payload: {
-          url: "https://webhookpeter.herokuapp.com/static/" + isbn + "/" + mapping[isbn][page] + ".jpg"
+          url: "https://webhookpeter.herokuapp.com/static/" + isbn + "/" +isbn+"-"+ mapping[isbn][page] + ".jpg"
         }
       }
     }
