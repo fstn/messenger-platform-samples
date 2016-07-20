@@ -18,6 +18,9 @@
 		"isOk": ["Est-ce que la solution te convient ?",
 		  "C'est bien ce que tu cherchais ?"],
 		"bye": ["A bientôt",
-		  "Reviens quand tu veux ;)"]
+		  "Reviens quand tu veux ;)"],
+		"retry": ["Je n'ai pas réussi à comprendre ta demande, si tu veux on peut recommencer depuis le debut, peux-tu me donner le numéro ISBN de ton livre s'il te plait ?"],
+		"fileNotYetAvailable": ["Pour le moment, je ne sais faire que les exercices de tes livres."]
+
 	  }
 }

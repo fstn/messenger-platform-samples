@@ -19,11 +19,15 @@ const
   request = require('request'),
   apiai = require('apiai');
 
+
 /*
  * Be sure to setup your config values before running this code. You can
  * set them using environment variables or modifying the config file in /config.
  *
  */
+var fs = require('fs');
+var mapping = JSON.parse(fs.readFileSync('./book/mapping.json', 'utf8'));
+
 
 var app = express();
 
@@ -212,36 +216,9 @@ function receivedMessage(event) {
 
   // You may get a text or attachment but not both
   var messageText = message.text;
-  var messageAttachments = message.attachments;
+  //var messageAttachments = message.attachments;
 
-  if (messageText) {
-
-    // If we receive a text message, check to see if it matches any special
-    // keywords and send back the corresponding example. Otherwise, just echo
-    // the text we received.
-    switch (messageText) {
-      case 'image':
-        sendImageMessage(event.sender);
-        break;
-
-      case 'button':
-        sendButtonMessage(senderID);
-        break;
-
-      case 'generic':
-        sendGenericMessage(senderID);
-        break;
-
-      case 'receipt':
-        sendReceiptMessage(senderID);
-        break;
-
-      default:
-        sendTextMessage(senderID, messageText);
-    }
-  } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
-  }
+  sendTextMessage(senderID, messageText);
 }
 
 
@@ -295,6 +272,9 @@ function receivedPostback(event) {
   sendTextMessage(senderID, "Postback called");
 }
 
+function fileExists(isbn, page, ex){
+  return mapping[isbn][page] != undefined;
+}
 
 /*
  * Send a message with an using the Send API.
@@ -309,7 +289,7 @@ function sendImageMessage(sender, isbn, page, ex) {
       attachment: {
         type: "image",
         payload: {
-          url: "https://webhookpeter.herokuapp.com/static/" + isbn + "/" + page + "/" + ex + ".PNG"
+          url: "https://webhookpeter.herokuapp.com/static/" + isbn + "/" + mapping[isbn][page] + ".jpg"
         }
       }
     }
@@ -328,7 +308,8 @@ function sendTextMessage(recipientId, messageText) {
 
   if (typeof sessions[recipientId] == 'undefined') {
     callUserAPI(recipientId,function (user) {
-      sessions[recipientId] = {user: user, isbn: '', page: '', ex: '', lastOutput: '', nbTry: 0}
+      sessions[recipientId] = {user: user};
+      clearSession(recipientId,user);
       reply(recipientId, messageText);
     });
   } else {
@@ -355,104 +336,130 @@ function sendTextMessage(recipientId, messageText) {
     ;
 };
 
+function clearSession(recipientId) {
+  if(sessions[recipientId] != undefined ){
+    sessions[recipientId].isbn = "";
+    sessions[recipientId].page = "";
+    sessions[recipientId].ex = "";
+    sessions[recipientId].lastOutput = "";
+    sessions[recipientId].nbTry = 0;
+  }
+}
+
 function reply(recipientId, messageText) {
   var text;
-  switch (sessions[recipientId].lastOutput) {
-    case '':
-      var isbnPattern = new RegExp("((?:[0-9]-?){10,20})","i");
-      var isbnMatcher = isbnPattern.exec(messageText);
-      if (isbnMatcher != null && isbnMatcher.length > 1) {
-        var tmpIsbn = isbnMatcher[1]
-        tmpIsbn = tmpIsbn.replace(/-/g, "");
-        tmpIsbn = tmpIsbn.replace(' ', '');
-        sessions[recipientId].isbn = tmpIsbn;
-        console.log("ISBN Number is valid and number is : " + tmpIsbn);
-      } else {
-        sessions[recipientId].nbTry++;
-      }
-      var pagePattern = new RegExp("(?:(?:page)|(?:p)|(?:P))[^0-9]*([0-9]{1,3})","i");
-      var pageMatcher = pagePattern.exec(messageText);
-      if (pageMatcher != null && pageMatcher.length > 1) {
-        sessions[recipientId].page = pageMatcher[1];
-        console.log("Page Number is valid and number is : " + pageMatcher[1]);
-      } else {
-        sessions[recipientId].nbTry++;
-      }
-      var exPattern = new RegExp("(?:(?:ex)|(?:Ex)|(?:exo)|(?:Exo)|(?:Exercice))[^0-9]*([0-9]{1,3})","i");
-      var exMatcher = exPattern.exec(messageText);
-      if (exMatcher != null && exMatcher.length > 1) {
-        sessions[recipientId].ex = exMatcher[1];
-        console.log("Exercice Number is valid and number is : " + exMatcher[1]);
-      } else {
-        sessions[recipientId].nbTry++;
-      }
-      break;
-    case 'isbn':
-      var isbnPattern = new RegExp("((?:[0-9]-?){10,20})","i");
-      var isbnMatcher = isbnPattern.exec(messageText);
-      if (isbnMatcher != null && isbnMatcher.length > 1) {
-        var tmpIsbn = isbnMatcher[1];
-        tmpIsbn = tmpIsbn.replace(/-/g, "");
-        tmpIsbn = tmpIsbn.replace(' ', '');
-        sessions[recipientId].isbn = tmpIsbn;
-        console.log("ISBN Number is valid and number is : " + tmpIsbn);
-      }
-      break;
-    case
-    'page'
-    :
-      var pagePattern = new RegExp("([0-9]{1,3})","i");
-      var pageMatcher = pagePattern.exec(messageText);
-      if (pageMatcher != null && pageMatcher.length > 1) {
-        sessions[recipientId].page = pageMatcher[1];
-        console.log("Page Number is valid and number is : " + pageMatcher[1]);
-      }
-      break;
-    case
-    'ex'
-    :
-      var exPattern = new RegExp("([0-9]{1,3})","i");
-      var exMatcher = exPattern.exec(messageText);
-      if (exMatcher != null && exMatcher.length > 1) {
-        sessions[recipientId].ex = exMatcher[1];
-        console.log("Exercice Number is valid and number is : " + exMatcher[1]);
-      }
-      break;
-  }
+  sessions[recipientId].nbTry++;
 
-
-  if (sessions[recipientId].isbn == '') {
-    text = msg.hello.sort(function () {
+  if (sessions[recipientId].nbTry >= 6) {
+    clearSession(recipientId);
+    text = msg.retry.sort(function () {
       return Math.random() - 0.5;
     })[0];
-
-    text = text.replace("#NAME#", sessions[recipientId].user.first_name);
-
-    sessions[recipientId].lastOutput = 'isbn';
-  } else if (sessions[recipientId].page == '') {
-    text = msg.page.sort(function () {
-      return Math.random() - 0.5;
-    })[0];
-    sessions[recipientId].lastOutput = 'page';
-  } else if (sessions[recipientId].ex == '') {
-    text = msg.exercise.sort(function () {
-      return Math.random() - 0.5;
-    })[0];
-    sessions[recipientId].lastOutput = 'ex';
   } else {
-    sessions[recipientId].lastOutput = '';
-    text = msg.result.sort(function () {
-      return Math.random() - 0.5;
-    })[0];
-    text = text.replace("#ISBN#", sessions[recipientId].isbn);
-    text = text.replace("#PAGE#", sessions[recipientId].page);
-    text = text.replace("#EX#", sessions[recipientId].ex);
-    text += msg.isOk.sort(function () {
-      return Math.random() - 0.5;
-    })[0];
-    ;
-    sendImageMessage(recipientId, sessions[recipientId].isbn, sessions[recipientId].page, sessions[recipientId].ex)
-    sessions[recipientId] = {user: sessions[recipientId].user, isbn: '', page: '', ex: '', lastOutput: ''}
+
+    switch (sessions[recipientId].lastOutput) {
+      case '':
+        var isbnPattern = new RegExp("((?:[0-9]-?){10,20})", "i");
+        var isbnMatcher = isbnPattern.exec(messageText);
+        if (isbnMatcher != null && isbnMatcher.length > 1) {
+          var tmpIsbn = isbnMatcher[1]
+          tmpIsbn = tmpIsbn.replace(/-/g, "");
+          tmpIsbn = tmpIsbn.replace(' ', '');
+          sessions[recipientId].isbn = tmpIsbn;
+          console.log("ISBN Number is valid and number is : " + tmpIsbn);
+          sessions[recipientId].nbTry = 0;
+        }
+        var pagePattern = new RegExp("(?:(?:page)|(?:p)|(?:P))[^0-9]*([0-9]{1,3})", "i");
+        var pageMatcher = pagePattern.exec(messageText);
+        if (pageMatcher != null && pageMatcher.length > 1) {
+          sessions[recipientId].page = pageMatcher[1];
+          console.log("Page Number is valid and number is : " + pageMatcher[1]);
+          sessions[recipientId].nbTry = 0;
+        }
+        var exPattern = new RegExp("(?:(?:ex)|(?:Ex)|(?:exo)|(?:Exo)|(?:Exercice))[^0-9]*([0-9]{1,3})", "i");
+        var exMatcher = exPattern.exec(messageText);
+        if (exMatcher != null && exMatcher.length > 1) {
+          sessions[recipientId].ex = exMatcher[1];
+          console.log("Exercice Number is valid and number is : " + exMatcher[1]);
+          sessions[recipientId].nbTry = 0;
+        }
+        break;
+      case 'isbn':
+        var isbnPattern = new RegExp("((?:[0-9]-?){10,20})", "i");
+        var isbnMatcher = isbnPattern.exec(messageText);
+        if (isbnMatcher != null && isbnMatcher.length > 1) {
+          var tmpIsbn = isbnMatcher[1];
+          tmpIsbn = tmpIsbn.replace(/-/g, "");
+          tmpIsbn = tmpIsbn.replace(' ', '');
+          sessions[recipientId].isbn = tmpIsbn;
+          console.log("ISBN Number is valid and number is : " + tmpIsbn);
+          sessions[recipientId].nbTry = 0;
+        }
+        break;
+      case
+      'page'
+      :
+        var pagePattern = new RegExp("([0-9]{1,3})", "i");
+        var pageMatcher = pagePattern.exec(messageText);
+        if (pageMatcher != null && pageMatcher.length > 1) {
+          sessions[recipientId].page = pageMatcher[1];
+          console.log("Page Number is valid and number is : " + pageMatcher[1]);
+          sessions[recipientId].nbTry = 0;
+        }
+        break;
+      case
+      'ex'
+      :
+        var exPattern = new RegExp("([0-9]{1,3})", "i");
+        var exMatcher = exPattern.exec(messageText);
+        if (exMatcher != null && exMatcher.length > 1) {
+          sessions[recipientId].ex = exMatcher[1];
+          console.log("Exercice Number is valid and number is : " + exMatcher[1]);
+          sessions[recipientId].nbTry = 0;
+        }
+        break;
+    }
+
+
+    if (sessions[recipientId].isbn == '') {
+      text = msg.hello.sort(function () {
+        return Math.random() - 0.5;
+      })[0];
+
+      text = text.replace("#NAME#", sessions[recipientId].user.first_name);
+
+      sessions[recipientId].lastOutput = 'isbn';
+    } else if (sessions[recipientId].page == '') {
+      text = msg.page.sort(function () {
+        return Math.random() - 0.5;
+      })[0];
+      sessions[recipientId].lastOutput = 'page';
+    } else if (sessions[recipientId].ex == '') {
+      text = msg.exercise.sort(function () {
+        return Math.random() - 0.5;
+      })[0];
+      sessions[recipientId].lastOutput = 'ex';
+    } else {
+      sessions[recipientId].lastOutput = '';
+      text = msg.result.sort(function () {
+        return Math.random() - 0.5;
+      })[0];
+      text = text.replace("#ISBN#", sessions[recipientId].isbn);
+      text = text.replace("#PAGE#", sessions[recipientId].page);
+      text = text.replace("#EX#", sessions[recipientId].ex);
+      text += msg.isOk.sort(function () {
+        return Math.random() - 0.5;
+      })[0];
+      ;
+      if(fileExists( sessions[recipientId].isbn, sessions[recipientId].page, sessions[recipientId].ex)) {
+        sendImageMessage(recipientId, sessions[recipientId].isbn, sessions[recipientId].page, sessions[recipientId].ex)
+        clearSession(recipientId);
+      }else{
+        text = msg.fileNotYetAvailable.sort(function () {
+          return Math.random() - 0.5;
+        })[0];
+      }
+    }
   }
   var messageData = {
     recipient: {
@@ -461,157 +468,11 @@ function reply(recipientId, messageText) {
     message: {
       text: text
     }
-  }
-  callSendAPI(messageData);
-}
-
-
-/*
- * Send a button message using the Send API.
- *
- */
-function sendButtonMessage(recipientId) {
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "button",
-          text: "This is test text",
-          buttons:[{
-            type: "web_url",
-            url: "https://www.oculus.com/en-us/rift/",
-            title: "Open Web URL"
-          }, {
-            type: "postback",
-            title: "Call Postback",
-            payload: "Developer defined postback"
-          }]
-        }
-      }
-    }
-  };  
-
-  callSendAPI(messageData);
-}
-
-/*
- * Send a Structured Message (Generic Message type) using the Send API.
- *
- */
-function sendGenericMessage(recipientId) {
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "generic",
-          elements: [{
-            title: "rift",
-            subtitle: "Correct",
-            image_url: "https://www.dropbox.com/s/nsyzfgjiuwr7n9q/9782091724935-248A.jpg?dl=0",
-            buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/rift/",
-              title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for first bubble",
-            }],
-          }, {
-            title: "touch",
-            subtitle: "Correct",
-            image_url: "https://www.dropbox.com/s/nsyzfgjiuwr7n9q/9782091724935-248A.jpg?dl=0",
-            buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/touch/",
-              title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for second bubble",
-            }]
-          }]
-        }
-      }
-    }
-  };  
-
-  callSendAPI(messageData);
-}
-
-/*
- * Send a receipt message using the Send API.
- *
- */
-function sendReceiptMessage(recipientId) {
-  // Generate a random receipt ID as the API requires a unique ID
-  var receiptId = "order" + Math.floor(Math.random()*1000);
-
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message:{
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "receipt",
-          recipient_name: "Peter Chang",
-          order_number: receiptId,
-          currency: "USD",
-          payment_method: "Visa 1234",        
-          timestamp: "1428444852", 
-          elements: [{
-            title: "Oculus Rift",
-            subtitle: "Includes: headset, sensor, remote",
-            quantity: 1,
-            price: 599.00,
-            currency: "USD",
-            image_url: "http://messengerdemo.parseapp.com/img/riftsq.png"
-          }, {
-            title: "Samsung Gear VR",
-            subtitle: "Frost White",
-            quantity: 1,
-            price: 99.99,
-            currency: "USD",
-            image_url: "http://messengerdemo.parseapp.com/img/gearvrsq.png"
-          }],
-          address: {
-            street_1: "1 Hacker Way",
-            street_2: "",
-            city: "Menlo Park",
-            postal_code: "94025",
-            state: "CA",
-            country: "US"
-          },
-          summary: {
-            subtotal: 698.99,
-            shipping_cost: 20.00,
-            total_tax: 57.67,
-            total_cost: 626.66
-          },
-          adjustments: [{
-            name: "New Customer Discount",
-            amount: -50
-          }, {
-            name: "$100 Off Coupon",
-            amount: -100
-          }]
-        }
-      }
-    }
   };
-
   callSendAPI(messageData);
 }
+
+
 
 function callIA(message,callBack){
 
