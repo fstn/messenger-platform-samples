@@ -33,7 +33,7 @@ var app = express();
 
 app.set('port', process.env.PORT || 5000);
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
-app.use('/static', express.static('public'));
+app.use('/static', express.static('book'));
 
 var msg = config.get('text');
 var sessions = {};
