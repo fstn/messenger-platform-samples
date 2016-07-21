@@ -212,17 +212,17 @@ function receivedPostback(event) {
 function reply(recipientId,messageText) {
   var text;
 
-  peter.consumeMessage(recipientId, messageText);
- 
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      text: text
-    }
-  };
-  facebook.sendMessage(messageData);
+  peter.consumeMessage(recipientId, messageText,function(text){
+    var messageData = {
+      recipient: {
+        id: recipientId
+      },
+      message: {
+        text: text
+      }
+    };
+    facebook.sendMessage(messageData);
+  });
 }
 
 

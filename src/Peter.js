@@ -118,6 +118,7 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
                 text = this.msg.get("fileNotYetAvailable");
             }
         }
+        callBack(text);
     }
 };
 
