@@ -16,7 +16,7 @@ function IA (){
     var self = this;
 }
 
-IA.prototype.consumeMessage = function (recipientId, message, callBack, nextConsumer) {
+IA.prototype.consumeMessage = function (recipientId, message, callBack, resetTry, nextConsumer) {
 
     var aiapi = apiai(APP_APIAP);
     aiapi.language="FR";
@@ -26,6 +26,7 @@ IA.prototype.consumeMessage = function (recipientId, message, callBack, nextCons
         console.log(response);
         var speech = response.result.fulfillment.speech;
         if (speech != "") {
+            resetTry(recipientId);
             callBack(recipientId, speech, undefined);
         } else {
             if (nextConsumer != undefined) {

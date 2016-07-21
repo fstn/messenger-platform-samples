@@ -8,5 +8,5 @@ function  Book(){
 
 
 Book.prototype.fileExists = function (isbn, page, ex){
-    return this.mapping[isbn][page] != undefined;
+    return !(this.mapping[isbn]== undefined || this.mapping[isbn][page] == undefined)
 };

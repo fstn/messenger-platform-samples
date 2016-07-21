@@ -38,21 +38,21 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
                     tmpIsbn = tmpIsbn.replace(' ', '');
                     this.sessions[recipientId].isbn = tmpIsbn;
                     console.log("ISBN Number is valid and number is : " + tmpIsbn);
-                    this.sessions[recipientId].nbTry = 0;
+                    this.resetTry(recipientId);
                 }
                 var pagePattern = new RegExp("(?:(?:page)|(?:p)|(?:P))[^0-9]*([0-9]{1,3})", "i");
                 var pageMatcher = pagePattern.exec(messageText);
                 if (pageMatcher != null && pageMatcher.length > 1) {
                     this.sessions[recipientId].page = pageMatcher[1];
                     console.log("Page Number is valid and number is : " + pageMatcher[1]);
-                    this.sessions[recipientId].nbTry = 0;
+                    this.resetTry(recipientId);
                 }
                 var exPattern = new RegExp("(?:(?:ex)|(?:Ex)|(?:exo)|(?:Exo)|(?:Exercice))[^0-9]*([0-9]{1,3})", "i");
                 var exMatcher = exPattern.exec(messageText);
                 if (exMatcher != null && exMatcher.length > 1) {
                     this.sessions[recipientId].ex = exMatcher[1];
                     console.log("Exercice Number is valid and number is : " + exMatcher[1]);
-                    this.sessions[recipientId].nbTry = 0;
+                    this.resetTry(recipientId);
                 }
                 break;
             case 'isbn':
@@ -64,7 +64,7 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
                     tmpIsbn = tmpIsbn.replace(' ', '');
                     this.sessions[recipientId].isbn = tmpIsbn;
                     console.log("ISBN Number is valid and number is : " + tmpIsbn);
-                    this.sessions[recipientId].nbTry = 0;
+                    this.resetTry(recipientId);
                 }
                 break;
             case
@@ -75,7 +75,7 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
                 if (pageMatcher != null && pageMatcher.length > 1) {
                     this.sessions[recipientId].page = pageMatcher[1];
                     console.log("Page Number is valid and number is : " + pageMatcher[1]);
-                    this.sessions[recipientId].nbTry = 0;
+                    this.resetTry(recipientId);
                 }
                 break;
             case
@@ -86,7 +86,7 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
                 if (exMatcher != null && exMatcher.length > 1) {
                     this.sessions[recipientId].ex = exMatcher[1];
                     console.log("Exercice Number is valid and number is : " + exMatcher[1]);
-                    this.sessions[recipientId].nbTry = 0;
+                    this.resetTry(recipientId);
                 }
                 break;
         }
@@ -106,14 +106,14 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
             this.sessions[recipientId].lastOutput = 'ex';
         } else {
             this.sessions[recipientId].lastOutput = '';
-            text = msg.this.msg.get("result");
+            text = this.msg.get("result");
             text = text.replace("#ISBN#", this.sessions[recipientId].isbn);
             text = text.replace("#PAGE#", this.sessions[recipientId].page);
             text = text.replace("#EX#", this.sessions[recipientId].ex);
             text += this.msg.get("isOk");
 
-            if(this.book.fileExists( this.sessions[recipientId].isbn, sself.essions[recipientId].page, this.sessions[recipientId].ex)) {
-                url = self.getImageUrl(this.sessions[recipientId].isbn, this.sessions[recipientId].page, this.sessions[recipientId].ex);
+            if(this.book.fileExists( this.sessions[recipientId].isbn, this.sessions[recipientId].page, this.sessions[recipientId].ex)) {
+                url = this.getImageUrl(this.sessions[recipientId].isbn, this.sessions[recipientId].page, this.sessions[recipientId].ex);
                 this.clearSession(recipientId);
             }else{
                 text = this.msg.get("fileNotYetAvailable");
@@ -122,6 +122,11 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
     }
     callBack(recipientId,text,url);
 };
+
+Peter.prototype.resetTry = function(recipientId) {
+    this.sessions[recipientId].nbTry=0;
+};
+
 
 Peter.prototype.clearSession = function(recipientId) {
     if(this.sessions[recipientId] != undefined ){
