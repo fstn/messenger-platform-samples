@@ -2,27 +2,5 @@
     "appSecret": "3fe21f503af67b9630056e26c8455547",
     "pageAccessToken": "EAAEJZCmwqbDsBAN1duD7m25KszJVAgIeTgCBXPvK78CNgOjYn8kNZB0hWiMFrAMy4md2Rx1hGPmsOuod7oqdLRV52DNmPLFVEpZAQ4UK8DECEYypXDhR0EcDZCgb6SJLvV8XUt6WGJZBrcPzCdJTiaOXir7xgw8ttHhfvURPGLQZDZD",
     "validationToken": "test",
-    "apiaiKey":"d0779c3c911a41a0a4a09e52426bc97d",
-	"text" : {
-		"hello": ["Salut #NAME#, je m'appelle Peter et je suis là pour t'aider à faire tes devoirs ! Donne moi l'ISBN de ton livre suivi du numéro de la page et de ton exercice pour que je puisse chercher les réponses à tes devoirs !",
-			"Bonjour #NAME#, pour pouvoir t'aider, j'ai besoin du numéro ISBN de ton livre, il se trouve au niveau du code barre de ton livre. ",
-			"Salut #NAME#, merci de m'avoir ajouté en ami. Si tu as besoin d'aide pour tes devoirs, envoie moi simplement le numéro ISBN de ton livre, la page et le numéro de ton exercice. N'hésite pas à en parler à tes amis, Peter",
-			"Bonjour #NAME# ! Besoin d'aide pour tes devoirs ? Donne moi l'ISBN de ton livre suivi du numéro de la page et de l'exercice et je m'occupe du reste ;)",
-			"Salut #NAME# ! Je m'appelle Peter et je suis là pour t'aider à faire tes devoirs. Pour cela, il faut que tu me donnes l'ISBN de ton livre, tu le trouveras près du code barre."
-		],
-		"page": ["Peux tu me donner le numéro de la page de ton exercice s'il te plait ?",
-		  "Maintenant que j'ai l'ISBN, j'ai besoin d'avoir le numéro de page s'il te plait."],
-		"exercise": ["Peux-tu me donner le numéro de ton exercice s'il te plait ?"],
-		"result": ["Tadam! ",
-		  "Et voila ;)"],
-		"isOk": ["Est-ce que la solution te convient ?",
-		  "C'est bien ce que tu cherchais ?"],
-		"bye": ["A bientôt",
-		  "Reviens quand tu veux ;)"],
-		"retry": ["Je n'ai pas réussi à comprendre ta demande, si tu veux on peut recommencer depuis le debut, peux-tu me donner le numéro ISBN de ton livre s'il te plait ?"],
-		"fileNotYetAvailable": ["Pour le moment, je ne sais pas faire les exercices de ton livres.",
-		"Désolé mais ton livre n’ai pas encore dans ma base de donnée. N’hésite pas à réessayer plus tard ou à m’envoyer d’autres exercices",
-		"Désolé mais il semblerait que ton livre ne soit pas encore dans ma base de données. N’hésite pas à réessayer plus tard ou à m’envoyer les exercices que tu as dans d’autres matières !"]
-
-	  }
+    "apiaiKey":"d0779c3c911a41a0a4a09e52426bc97d"
 }
