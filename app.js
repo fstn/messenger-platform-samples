@@ -352,7 +352,7 @@ function reply(recipientId, messageText) {
   var text;
   sessions[recipientId].nbTry++;
 
-  if (sessions[recipientId].nbTry >= 6) {
+  if (sessions[recipientId].nbTry >= 2) {
     clearSession(recipientId);
     text = msg.retry.sort(function () {
       return Math.random() - 0.5;

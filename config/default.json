@@ -13,7 +13,7 @@
 		"page": ["Peux tu me donner le numéro de la page de ton exercice s'il te plait ?",
 		  "Maintenant que j'ai l'ISBN, j'ai besoin d'avoir le numéro de page s'il te plait."],
 		"exercise": ["Peux-tu me donner le numéro de ton exercice s'il te plait ?"],
-		"result": ["Tadam! ISBN: #ISBN# PAGE: #PAGE# EX: #EX#",
+		"result": ["Tadam! ",
 		  "Et voila ;)"],
 		"isOk": ["Est-ce que la solution te convient ?",
 		  "C'est bien ce que tu cherchais ?"],
