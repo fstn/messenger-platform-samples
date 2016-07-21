@@ -24,9 +24,7 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
     this.sessions[recipientId].nbTry++;
     if (this.sessions[recipientId].nbTry >= 2) {
         this.clearSession(recipientId);
-        text = this.msg.get("retry").sort(function () {
-            return Math.random() - 0.5;
-        })[0];
+        text = this.msg.get("retry");
     } else {
 
         switch (this.sessions[recipientId].lastOutput) {
