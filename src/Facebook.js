@@ -2,6 +2,7 @@ module.exports = Facebook;
 
 const
     config = require('config'),
+    crypto = require('crypto'),
     request = require('request');
 
 
