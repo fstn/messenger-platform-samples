@@ -117,6 +117,7 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
                 this.clearSession(recipientId);
             }else{
                 text = this.msg.get("fileNotYetAvailable");
+                this.clearSession(recipientId);
             }
         }
     }
@@ -126,7 +127,7 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
 Peter.prototype.resetTry = function(recipientId) {
     if(  this.sessions[recipientId] != undefined) {
         this.sessions[recipientId].nbTry = 0;
-    }   
+    }
 };
 
 
