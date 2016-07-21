@@ -124,7 +124,9 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
 };
 
 Peter.prototype.resetTry = function(recipientId) {
-    this.sessions[recipientId].nbTry=0;
+    if(  this.sessions[recipientId] != undefined) {
+        this.sessions[recipientId].nbTry = 0;
+    }   
 };
 
 
