@@ -225,8 +225,7 @@ function consumerCallback(recipientId,text, url) {
 ;
 
 function reply(recipientId,messageText) {
-  peter.consumeMessage(recipientId, messageText, consumerCallback);
-  ia.consumeMessage(recipientId, messageText, consumerCallback);
+  ia.consumeMessage(recipientId, messageText, consumerCallback, peter);
 }
 
 

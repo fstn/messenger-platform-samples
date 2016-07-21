@@ -16,7 +16,7 @@ function IA (){
     var self = this;
 }
 
-IA.prototype.consumeMessage = function (recipientId,message,callBack){
+IA.prototype.consumeMessage = function (recipientId, message, callBack, nextConsumer) {
 
     var aiapi = apiai(APP_APIAP);
     aiapi.language="FR";
@@ -24,7 +24,14 @@ IA.prototype.consumeMessage = function (recipientId,message,callBack){
 
     request.on('response', function(response) {
         console.log(response);
-        callBack(recipientId,response.result.fulfillment.speech,undefined);
+        var speech = response.result.fulfillment.speech;
+        if (speech != "") {
+            callBack(recipientId, speech, undefined);
+        } else {
+            if (nextConsumer != undefined) {
+                nextConsumer.consumeMessage(recipientId, message, callBack);
+            }
+        }
     });
 
     request.on('error', function(error) {
