@@ -6,12 +6,6 @@ const
     request = require('request');
 
 // App Secret can be retrieved from the App Dashboard
-const APP_APIAP = (process.env.MESSENGER_APP_SECRET) ?
-    process.env.MESSENGER_APP_SECRET :
-    config.get('apiaiKey');
-
-
-// App Secret can be retrieved from the App Dashboard
 const APP_SECRET = (process.env.MESSENGER_APP_SECRET) ?
     process.env.MESSENGER_APP_SECRET :
     config.get('appSecret');

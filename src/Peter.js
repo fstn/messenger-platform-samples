@@ -21,6 +21,7 @@ Peter.prototype.getImageUrl = function(isbn,page,ex) {
 
 Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
     var text = "";
+    var url = undefined;
     this.sessions[recipientId].nbTry++;
     if (this.sessions[recipientId].nbTry >= 2) {
         this.clearSession(recipientId);
@@ -111,15 +112,15 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
             text = text.replace("#EX#", this.sessions[recipientId].ex);
             text += this.msg.get("isOk");
 
-            if(fileExists( this.sessions[recipientId].isbn, sself.essions[recipientId].page, this.sessions[recipientId].ex)) {
-                this.sendImageMessage(recipientId,url , this.sessions[recipientId].isbn, this.sessions[recipientId].page, this.sessions[recipientId].ex)
+            if(this.book.fileExists( this.sessions[recipientId].isbn, sself.essions[recipientId].page, this.sessions[recipientId].ex)) {
+                url = self.getImageUrl(this.sessions[recipientId].isbn, this.sessions[recipientId].page, this.sessions[recipientId].ex);
                 this.clearSession(recipientId);
             }else{
                 text = this.msg.get("fileNotYetAvailable");
             }
         }
-        callBack(text);
     }
+    callBack(recipientId,text,url);
 };
 
 Peter.prototype.clearSession = function(recipientId) {

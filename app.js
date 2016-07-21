@@ -15,8 +15,6 @@ const
   config = require('config'),
   express = require('express'),
   https = require('https'),  
-  request = require('request'),
-    apiai = require('apiai'),
     Logger = require('./src/Logger.js'),
     Facebook = require('./src/Facebook.js'),
     IA = require('./src/IA.js'),
@@ -209,10 +207,10 @@ function receivedPostback(event) {
 }
 
 
-function reply(recipientId,messageText) {
-  var text;
-
-  peter.consumeMessage(recipientId, messageText,function(text){
+function consumerCallback(recipientId,text, url) {
+  if (url != undefined) {
+    facebook.sendImageMessage(recipientId, url);
+  } else {
     var messageData = {
       recipient: {
         id: recipientId
@@ -222,7 +220,13 @@ function reply(recipientId,messageText) {
       }
     };
     facebook.sendMessage(messageData);
-  });
+  }
+}
+;
+
+function reply(recipientId,messageText) {
+  peter.consumeMessage(recipientId, messageText, consumerCallback);
+  ia.consumeMessage(recipientId, messageText, consumerCallback);
 }
 
 
