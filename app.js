@@ -209,7 +209,7 @@ function receivedPostback(event) {
 }
 
 
-function reply() {
+function reply(recipientId,messageText) {
   var text;
 
   peter.consumeMessage(recipientId, messageText);

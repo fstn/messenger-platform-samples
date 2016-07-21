@@ -136,7 +136,7 @@ Facebook.prototype.getUserData = function(senderId,callBack){
  * get the message id in a response
  *
  */
-Facebook.prototype.callSendAPI = function (messageData) {
+Facebook.prototype.sendMessage = function (messageData) {
     request({
         uri: 'https://graph.facebook.com/v2.7/me/messages',
         qs: { access_token: PAGE_ACCESS_TOKEN },
