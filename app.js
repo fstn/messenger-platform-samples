@@ -203,12 +203,13 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to 
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called");
+  facebook.sendMessage(senderID, "Postback called");
 }
 
 
 function consumerCallback(recipientId,text, url) {
   if (url != undefined) {
+    console.log("Send image "+url);
     facebook.sendImageMessage(recipientId, url);
   } else {
     var messageData = {

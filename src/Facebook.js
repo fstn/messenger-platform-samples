@@ -80,7 +80,7 @@ Facebook.prototype.verifyRequestSignature= function(req, res, buf) {
 Facebook.prototype.sendImageMessage= function(senderId,url) {
     var messageData = {
         recipient: {
-            id: sender
+            id: senderId
         },
         message: {
             attachment: {
