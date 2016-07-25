@@ -92,7 +92,7 @@ Facebook.prototype.sendImageMessage= function(senderId,url) {
         }
     };
 
-    callSendAPI(messageData);
+    this.sendMessage(messageData);
 };
 
 
