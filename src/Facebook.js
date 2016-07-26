@@ -355,31 +355,18 @@ Facebook.prototype.sendGenericMessage = function(recipientId) {
                     template_type: "generic",
                     elements: [{
                         title: "Peter",
-                        subtitle: "Homework",
+                        subtitle: "Hey, Je suis Peter. Je suis la pour t'aider à faire tes devoirs",
                         item_url: "https://www.facebook.com/HiPeterUSA/",
                         image_url: "https://scontent-cdg2-1.xx.fbcdn.net/t31.0-8/13063394_451569781702680_7636515678368653467_o.jpg",
                         buttons: [{
-                            type: "web_url",
-                            url: "https://www.facebook.com/HiPeterUSA/",
-                            title: "J'ai besoin d'aide"
-                        }, {
                             type: "postback",
-                            title: "Je veux en savoir plus",
-                            payload: "Payload for first bubble",
-                        }],
-                    }, {
-                        title: "touch",
-                        subtitle: "Your Hands, Now in VR",
-                        item_url: "https://www.oculus.com/en-us/touch/",
-                        image_url: "https://upload.wikimedia.org/wikipedia/commons/5/56/Ipod-touch-1st-gen.png",
-                        buttons: [{
-                            type: "web_url",
-                            url: "https://www.oculus.com/en-us/touch/",
-                            title: "J'ai besoin d'aide pour mes devoirs"
-                        }, {
+                            payload: "go",
+                            title: "Super"
+                        },
+                        {
                             type: "postback",
-                            title: "Call Postback",
-                            payload: "Je veux en savoir plus ",
+                            payload: "how",
+                            title: "Comment?"
                         }]
                     }]
                 }
