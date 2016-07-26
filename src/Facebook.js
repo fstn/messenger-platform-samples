@@ -152,6 +152,243 @@ Facebook.prototype.sendMessage = function (messageData) {
     });
 };
 
+/*
+ * Send a Gif using the Send API.
+ *
+ */
+Facebook.prototype.sendGifMessage = function (recipientId) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            attachment: {
+                type: "image",
+                payload: {
+                    url: SERVER_URL + "/assets/instagram_logo.gif"
+                }
+            }
+        }
+    };
+
+    this.sendMessage(messageData);
+};
+
+/*
+ * Send audio using the Send API.
+ *
+ */
+Facebook.prototype.sendAudioMessage = function (recipientId) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            attachment: {
+                type: "audio",
+                payload: {
+                    url: SERVER_URL + "/assets/sample.mp3"
+                }
+            }
+        }
+    };
+
+    this.sendMessage(messageData);
+};
+
+/*
+ * Send a video using the Send API.
+ *
+ */
+Facebook.prototype.sendVideoMessage = function(recipientId) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            attachment: {
+                type: "video",
+                payload: {
+                    url: SERVER_URL + "/assets/allofus480.mov"
+                }
+            }
+        }
+    };
+
+    this.sendMessage(messageData);
+};
+
+/*
+ * Send a video using the Send API.
+ *
+ */
+Facebook.prototype.sendFileMessage = function(recipientId) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            attachment: {
+                type: "file",
+                payload: {
+                    url: SERVER_URL + "/assets/test.txt"
+                }
+            }
+        }
+    };
+
+    this.sendMessage(messageData);
+};
+
+/*
+ * Send a button message using the Send API.
+ *
+ */
+Facebook.prototype.sendButtonMessage = function(recipientId) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "button",
+                    text: "This is test text",
+                    buttons:[{
+                        type: "web_url",
+                        url: "https://www.oculus.com/en-us/rift/",
+                        title: "Open Web URL"
+                    }, {
+                        type: "postback",
+                        title: "Trigger Postback",
+                        payload: "DEVELOPED_DEFINED_PAYLOAD"
+                    }, {
+                        type: "phone_number",
+                        title: "Call Phone Number",
+                        payload: "+16505551234"
+                    }]
+                }
+            }
+        }
+    };
+
+    this.sendMessage(messageData);
+};
+
+
+/*
+ * Turn typing indicator on
+ *
+ */
+Facebook.prototype.ssendTypingOn = function(recipientId) {
+    console.log("Turning typing indicator on");
+
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        sender_action: "typing_on"
+    };
+
+    this.sendMessage(messageData);
+};
+
+/*
+ * Turn typing indicator off
+ *
+ */
+Facebook.prototype.ssendTypingOff =  function(recipientId) {
+    console.log("Turning typing indicator off");
+
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        sender_action: "typing_off"
+    };
+
+    this.sendMessage(messageData);
+};
+
+/*
+ * Send a message with the account linking call-to-action
+ *
+ */
+Facebook.prototype.ssendAccountLinking = function(recipientId) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "button",
+                    text: "Welcome. Link your account.",
+                    buttons:[{
+                        type: "account_link",
+                        url: SERVER_URL + "/authorize"
+                    }]
+                }
+            }
+        }
+    };
+
+    this.sendMessage(messageData);
+};
+
+
+/*
+ * Send a Structured Message (Generic Message type) using the Send API.
+ *
+ */
+Facebook.prototype.sendGenericMessage = function(recipientId) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            attachment: {
+                type: "template",
+                payload: {
+                    template_type: "generic",
+                    elements: [{
+                        title: "rift",
+                        subtitle: "Next-generation virtual reality",
+                        item_url: "https://www.oculus.com/en-us/rift/",
+                        image_url: SERVER_URL + "/assets/rift.png",
+                        buttons: [{
+                            type: "web_url",
+                            url: "https://www.oculus.com/en-us/rift/",
+                            title: "Open Web URL"
+                        }, {
+                            type: "postback",
+                            title: "Call Postback",
+                            payload: "Payload for first bubble",
+                        }],
+                    }, {
+                        title: "touch",
+                        subtitle: "Your Hands, Now in VR",
+                        item_url: "https://www.oculus.com/en-us/touch/",
+                        image_url: SERVER_URL + "/assets/touch.png",
+                        buttons: [{
+                            type: "web_url",
+                            url: "https://www.oculus.com/en-us/touch/",
+                            title: "Open Web URL"
+                        }, {
+                            type: "postback",
+                            title: "Call Postback",
+                            payload: "Payload for second bubble",
+                        }]
+                    }]
+                }
+            }
+        }
+    };
+
+    this.sendMessage(messageData);
+}
 
 /*
  * Delivery Confirmation Event
@@ -177,3 +414,4 @@ Facebook.prototype.receivedDeliveryConfirmation = function(event){
 
     console.log("All message before %d were delivered.", watermark);
 };
+

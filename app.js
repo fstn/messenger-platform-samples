@@ -226,6 +226,7 @@ function consumerCallback(recipientId,text, url) {
 ;
 
 function reply(recipientId,messageText) {
+  facebook.sendGenericMessage(recipientId);
   ia.consumeMessage(recipientId, messageText, consumerCallback, peter, peter);
 }
 
