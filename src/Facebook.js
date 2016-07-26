@@ -354,17 +354,17 @@ Facebook.prototype.sendGenericMessage = function(recipientId) {
                 payload: {
                     template_type: "generic",
                     elements: [{
-                        title: "rift",
-                        subtitle: "Peter",
+                        title: "Peter",
+                        subtitle: "Homework",
                         item_url: "https://www.facebook.com/HiPeterUSA/",
                         image_url: "https://scontent-cdg2-1.xx.fbcdn.net/t31.0-8/13063394_451569781702680_7636515678368653467_o.jpg",
                         buttons: [{
                             type: "web_url",
                             url: "https://www.facebook.com/HiPeterUSA/",
-                            title: "Open Web URL"
+                            title: "J'ai besoin d'aide"
                         }, {
                             type: "postback",
-                            title: "Call Postback",
+                            title: "Je veux en savoir plus",
                             payload: "Payload for first bubble",
                         }],
                     }, {
