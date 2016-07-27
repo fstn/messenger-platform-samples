@@ -1,0 +1,44 @@
+{
+  "welcome_message": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "elements": [
+          {
+            "title": "Peter",
+            "subtitle": "#hello#",
+            "item_url": "https://www.facebook.com/HiPeterUSA/",
+            "image_url": "https://scontent-cdg2-1.xx.fbcdn.net/t31.0-8/13063394_451569781702680_7636515678368653467_o.jpg",
+            "buttons": [
+              {
+                "type": "postback",
+                "payload": "{message:start_message}",
+                "title": "#great_btn#"
+              },
+              {
+                "type": "postback",
+                "payload": "{message:explain_message}",
+                "title": "#how_btn#"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "start_message": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "button",
+        "text": "#explain#",
+        "buttons":[{
+          "type":"postback",
+          "title":"#start_btn#",
+          "payload":"{action:start}"
+        }]
+      }
+    }
+  }
+}

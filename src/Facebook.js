@@ -375,7 +375,25 @@ Facebook.prototype.sendGenericMessage = function(recipientId) {
     };
 
     this.sendMessage(messageData);
-}
+};
+
+/*
+ * Send a text message using the Send API.
+ */
+Facebook.prototype.sendTextMessage = function(recipientId, messageText) {
+    var self = this;
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: {
+            text: messageText,
+            metadata: "DEVELOPER_DEFINED_METADATA"
+        }
+    };
+    self.sendMessage(messageData);
+};
+
 
 /*
  * Delivery Confirmation Event
