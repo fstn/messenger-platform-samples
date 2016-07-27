@@ -1,7 +1,14 @@
 module.exports = Peter;
 
 const Text = require("./Text.js"),
-    Book = require("./Book.js");
+    Book = require("./Book.js"),
+    Facebook = require("./Facebook.js"),
+    MessageModel = require("./model/MessageModel.js"),
+    ButtonModel = require("./model/ButtonModel.js"),
+    QuickReplyModel = require("./model/QuickReplyModel.js"),
+    QuickMessageModel = require("./model/QuickMessageModel.js"),
+    JsonDB = require('node-json-db');
+;
 
 const IMAGE_URL = "https://webhookpeter.herokuapp.com/static/";
 
@@ -10,10 +17,15 @@ function Peter(){
 
     this.msg = new Text();
     this.book = new Book();
+    this.facebook = new Facebook();
 
     this.sessions = {};
+    this.db = new JsonDB("peter", true, false);
+
+    this.db.push("/users/1017776525008546/books", '[{"isbn":"121313132"},{"isbn":"12312313213"},{"isbn":"12313213123"}]');
 
 }
+
 
 Peter.prototype.getImageUrl = function(isbn,page,ex) {
     url =   IMAGE_URL + isbn + "/" +isbn+"-"+ this.book.mapping[isbn][page] + ".jpg"
@@ -139,4 +151,40 @@ Peter.prototype.clearSession = function(recipientId) {
         this.sessions[recipientId].lastOutput = "";
         this.sessions[recipientId].nbTry = 0;
     }
-}
+};
+
+
+Peter.prototype.showIsbn = function (recipientId) {
+    var self = this;
+    var books = JSON.parse(self.db.getData("/users/1017776525008546/books"));
+
+    var quickReplies = [];
+    books.forEach(function (book) {
+        quickReplies.push(new QuickReplyModel("text", book.isbn, '{"action":peter.setIsbn("'+recipientId+',' + book.isbn + ')}'));
+    });
+    quickReplies.push(new QuickReplyModel("text", "#addBook#", '{"action":"peter.addIsbn("'+recipientId+')"}'));
+    var msgModel = new QuickMessageModel("#chooseBook#", quickReplies);
+    self.facebook.sendMessageData('' + recipientId, msgModel);
+
+};
+
+
+Peter.prototype.setIsbn = function (recipientId,isbn) {
+    var self = this;
+    text = this.msg.get("page");
+    this.sessions[recipientId] = {};
+    this.sessions[recipientId].isbn=isbn;
+    self.clearSession(recipientId);
+    this.sessions[recipientId].lastOutput = 'page';
+    self.facebook.sendTextMessage(recipientId,text);
+};
+
+Peter.prototype.addIsbn = function (recipientId) {
+    var self = this;
+    text = this.msg.get("giveIsbn");
+    this.sessions[recipientId] = {};
+    self.clearSession(recipientId);
+    this.sessions[recipientId].lastOutput = 'isbn';
+    self.facebook.sendTextMessage(recipientId,text);
+};
+

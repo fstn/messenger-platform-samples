@@ -153,6 +153,22 @@ Facebook.prototype.sendMessage = function (messageData) {
 };
 
 /*
+ /*
+ * Send audio using the Send API.
+ *
+ */
+Facebook.prototype.sendMessageData = function (recipientId,messagePart) {
+    var messageData = {
+        recipient: {
+            id: recipientId
+        },
+        message: messagePart
+    };
+
+    this.sendMessage(messageData);
+};
+
+/*
  * Send a Gif using the Send API.
  *
  */

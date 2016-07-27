@@ -60,6 +60,7 @@ MessageConsumer.prototype.consumeRequest = function (req, res) {
  *
  */
 MessageConsumer.prototype.consumePostback = function (event) {
+    var self = this;
     Logger.log(event);
     var senderID = event.sender.id;
     var recipientID = event.recipient.id;
@@ -68,17 +69,14 @@ MessageConsumer.prototype.consumePostback = function (event) {
     // The 'payload' param is a developer-defined field which is set in a postback
     // button for Structured Messages.
     var payload = event.postback.payload;
-    try {
         if (payload.action) {
-
+            eval(payload.action);
         }
         if (payload.message) {
 
             self.facebook.sendMessage(messageData);
         }
-    } catch (e) {
-        console.error("Unable to parse postBackParsing error:", e);
-    }
+
 };
 
 
@@ -177,7 +175,7 @@ MessageConsumer.prototype.consumeMessage = function(event) {
 
     function reply(recipientId,messageText){
         self.facebook.sendGenericMessage(recipientId);
-        self.ia.consumeMessage(recipientId, messageText, consumerCallback, peter, peter);
+        self.ia.consumeMessage(recipientId, messageText, consumerCallback, self.peter, self.peter);
     }
 };
 
