@@ -8,7 +8,7 @@ module.exports = {
     clear : _clear
 
 } ;
-var sessions = {};
+var sessions = {isbn:'',page:"",ex:'',nbMessage:0};
 
 function _get(recipientId){
     if( sessions[recipientId] == undefined ){
@@ -22,5 +22,5 @@ function _set(recipientId,value){
 }
 
 function _clear(recipientId) {
-    sessions[recipientId] = {nbMessage:0};
+    sessions[recipientId] = {isbn:'',page:"",ex:'',nbMessage:0};
 }

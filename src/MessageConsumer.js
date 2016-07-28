@@ -9,6 +9,8 @@ const
     History = require("./History.js"),
     Conversational = require('./Conversational.js');
 
+const IMAGE_URL = "https://webhookpeter.herokuapp.com/static/";
+
 function MessageConsumer() {
     var self = this;
     self.facebook = new Facebook();
@@ -87,7 +89,7 @@ MessageConsumer.prototype.start = function(recipientId){
     var self = this;
     History.get(recipientId).lastOutput = 'isbn';
     self.facebook.sendTextMessage(recipientId,this.text.get("hello"));
-    self.facebook.sendImageMessage(recipientId, self.peter.IMAGE_URL +"assets/img/isbn.jpg");
+    self.facebook.sendImageMessage(recipientId, IMAGE_URL +"assets/img/isbn.jpg");
 
 };
 
@@ -167,8 +169,7 @@ MessageConsumer.prototype.consumeMessage = function(event) {
 
 
     function consumerCallback(recipientId,text, url) {
-        var self = this;
-        if (url != undefined) {
+         if (url != undefined) {
             console.log("Send image "+url);
             self.facebook.sendImageMessage(recipientId, url);
         } else {
@@ -185,8 +186,7 @@ MessageConsumer.prototype.consumeMessage = function(event) {
     }
 
     function reply(recipientId,messageText){
-        
-
+        console.log("Reply for "+recipientId+", "+History.get(recipientId).nbMessage);
         if(self.isFirstMessage(recipientId)){
             self.facebook.sendMessageData(recipientId,self.message.get("welcome_message"));
         }else {
@@ -213,7 +213,7 @@ MessageConsumer.prototype.consumeDeliveryConfirmation  = function(event) {
 };
 
 MessageConsumer.prototype.isFirstMessage = function(recipientId){
-    return History.get(recipientId) != null && History.get(recipientId).nbMessage >0;
+    return History.get(recipientId) == null || History.get(recipientId).nbMessage ==0;
 };
 
 

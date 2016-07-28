@@ -19,7 +19,8 @@
   "fileNotYetAvailable": ["Pour le moment, je ne sais pas faire les exercices de ton livres.",
     "Désolé mais ton livre n’ai pas encore dans ma base de donnée. N’hésite pas à réessayer plus tard ou à m’envoyer d’autres exercices",
     "Désolé mais il semblerait que ton livre ne soit pas encore dans ma base de données. N’hésite pas à réessayer plus tard ou à m’envoyer les exercices que tu as dans d’autres matières !"],
-  "start": ["Demarrer"]
+  "start": ["Demarrer"],
+  "waitPlease": ["Bien reçu ! Je reviens dans un instant."]
 
 
 }

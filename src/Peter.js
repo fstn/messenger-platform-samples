@@ -38,7 +38,7 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
     var url = undefined;
     History.get(recipientId).nbTry++;
     if (History.get(recipientId).nbTry >= 2) {
-        this.clearSession(recipientId);
+        History.clear(recipientId);
         text = this.msg.get("retry");
     } else {
 
@@ -126,13 +126,16 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
             text = text.replace("#EX#", History.get(recipientId).ex);
             text += this.msg.get("isOk");
 
-            if(this.book.fileExists( History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex)) {
+            text = this.msg.get("waitPlease");
+            History.clear(recipientId);
+
+           /* if(this.book.fileExists( History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex)) {
                 url = this.getImageUrl(History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex);
-                this.clearSession(recipientId);
+                History.clear(recipientId);
             }else{
                 text = this.msg.get("fileNotYetAvailable");
-                this.clearSession(recipientId);
-            }
+                History.clear(recipientId);
+            }*/
         }
     }
     callBack(recipientId,text,url);
@@ -166,7 +169,6 @@ Peter.prototype.setIsbn = function (recipientId,isbn) {
     text = this.msg.get("page");
     History.clear(recipientId);
     History.get(recipientId).isbn=isbn;
-    self.clearSession(recipientId);
     History.get(recipientId).lastOutput = 'page';
     self.facebook.sendTextMessage(recipientId,text);
 };
@@ -175,7 +177,6 @@ Peter.prototype.addIsbn = function (recipientId) {
     var self = this;
     text = this.msg.get("giveIsbn");
     History.clear(recipientId);
-    self.clearSession(recipientId);
     History.get(recipientId).lastOutput = 'isbn';
     self.facebook.sendTextMessage(recipientId,text);
 };
