@@ -3,8 +3,10 @@ module.exports = MessageConsumer;
 const
     Logger = require('./Logger.js'),
     Facebook = require('./Facebook.js'),
+    Message = require('./Message.js'),
     IA = require('./IA.js'),
     Peter = require('./Peter.js'),
+    History = require("./History.js"),
     Conversational = require('./Conversational.js');
 
 function MessageConsumer() {
@@ -12,7 +14,9 @@ function MessageConsumer() {
     self.facebook = new Facebook();
     self.peter = new Peter();
     self.ia = new IA();
-};
+    self.message = new Message();
+    self.text = new Text();
+}
 
 
 MessageConsumer.prototype.consumeRequest = function (req, res) {
@@ -62,8 +66,8 @@ MessageConsumer.prototype.consumeRequest = function (req, res) {
 MessageConsumer.prototype.consumePostback = function (event) {
     var self = this;
     Logger.log(event);
-    var senderID = event.sender.id;
-    var recipientID = event.recipient.id;
+    var senderId = event.sender.id;
+    var recipientId = event.recipient.id;
     var timeOfPostback = event.timestamp;
 
     // The 'payload' param is a developer-defined field which is set in a postback
@@ -79,6 +83,13 @@ MessageConsumer.prototype.consumePostback = function (event) {
 
 };
 
+MessageConsumer.prototype.start = function(recipientId){
+    var self = this;
+    History.get(recipientId).lastOutput = 'isbn';
+    self.facebook.sendTextMessage(recipientId,this.text.get("hello"));
+    self.facebook.sendImageMessage(recipientId, peter.IMAGE_URL +"assets/img/isbn.jpg");
+
+};
 
 /*
  * Authorization Event
@@ -143,10 +154,10 @@ MessageConsumer.prototype.consumeMessage = function(event) {
     var messageText = message.text;
     //var messageAttachments = message.attachments;
 
-    if (typeof self.peter.sessions[senderID] == 'undefined') {
+    if (typeof History.get(senderID) == 'undefined') {
         self.facebook.getUserData(senderID, function (user) {
-            self.peter.sessions[senderID] = {user: user};
-            self.peter.clearSession(senderID, user);
+            History.clear(senderID);
+            History.get(senderID).user = user;
             reply(senderID, messageText);
         });
 
@@ -171,13 +182,22 @@ MessageConsumer.prototype.consumeMessage = function(event) {
             };
             self.facebook.sendMessage(messageData);
         }
-    };
+    }
 
     function reply(recipientId,messageText){
-        self.facebook.sendGenericMessage(recipientId);
-        self.ia.consumeMessage(recipientId, messageText, consumerCallback, self.peter, self.peter);
+        
+
+        if(self.isFirstMessage(recipientId)){
+            self.facebook.sendMessageData(recipientId,self.message.get("welcome_message"));
+        }else {
+            self.ia.consumeMessage(recipientId, messageText, consumerCallback, self.peter, self.peter);
+        }
+        History.get(recipientId).nbMessage++;
     }
 };
+
+
+
 
 
 /*
@@ -190,6 +210,10 @@ MessageConsumer.prototype.consumeMessage = function(event) {
 MessageConsumer.prototype.consumeDeliveryConfirmation  = function(event) {
     var self = this;
     self.facebook.receivedDeliveryConfirmation(event);
+};
+
+MessageConsumer.prototype.isFirstMessage = function(recipientId){
+    return History.get(recipientId) != null && History.get(recipientId).nbMessage >0;
 };
 
 

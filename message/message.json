@@ -13,13 +13,8 @@
             "buttons": [
               {
                 "type": "postback",
-                "payload": "{message:start_message}",
-                "title": "#great_btn#"
-              },
-              {
-                "type": "postback",
-                "payload": "{message:explain_message}",
-                "title": "#how_btn#"
+                "payload": "{action:self.start(recipientId)}",
+                "title": "#start#"
               }
             ]
           }

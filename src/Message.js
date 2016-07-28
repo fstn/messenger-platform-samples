@@ -26,7 +26,7 @@ Message.prototype.get = function (key) {
     }
     matcher.forEach(function (match) {
         var translate = self.text.get(match);
-        resultAsString.replace("#" + match + "#", translate);
+        resultAsString = resultAsString.replace("#" + match + "#", translate);
     });
     result = JSON.parse(resultAsString);
     return result;
