@@ -87,7 +87,7 @@ MessageConsumer.prototype.start = function(recipientId){
     var self = this;
     History.get(recipientId).lastOutput = 'isbn';
     self.facebook.sendTextMessage(recipientId,this.text.get("hello"));
-    self.facebook.sendImageMessage(recipientId, peter.IMAGE_URL +"assets/img/isbn.jpg");
+    self.facebook.sendImageMessage(recipientId, self.peter.IMAGE_URL +"assets/img/isbn.jpg");
 
 };
 
