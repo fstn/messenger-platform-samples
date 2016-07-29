@@ -13,7 +13,7 @@
             "buttons": [
               {
                 "type": "postback",
-                "payload": "{action:self.start(recipientId)}",
+                "payload": "{'action':'self.start(recipientId)'}",
                 "title": "#start#"
               }
             ]
