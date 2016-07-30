@@ -142,7 +142,7 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
                History.clear(recipientId);
                self.facebook.ssendTypingOn();
                setTimeout(function(){self.facebook.ssendTypingOff()},2000);
-               setTimeout(function(){callBack(recipientId,text,url);},5000);
+               setTimeout(function(){callBack(recipientId,text,url);self.startLearning(recipientId,History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex),callBack},6000);
             }
         }
     }
@@ -188,3 +188,10 @@ Peter.prototype.addIsbn = function (recipientId) {
     self.facebook.sendTextMessage(recipientId,text);
 };
 
+Peter.prototype.startLearning = function(recipientId,isbn,page,ex,callBack){
+    var self = this;
+    text = this.msg.get("learnMe");
+    callBack(recipientId,text,'')
+
+
+};
