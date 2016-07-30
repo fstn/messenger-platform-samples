@@ -110,7 +110,7 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
         if (History.get(recipientId).isbn == '') {
             text = this.msg.get("hello")
 
-            text = text.replace("#NAME#", History.get(recipientId).user.first_name);
+            //TODO text = text.replace("#NAME#", History.get(recipientId).user.first_name);
 
             History.get(recipientId).lastOutput = 'isbn';
         } else if (History.get(recipientId).page == '') {
