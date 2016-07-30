@@ -24,7 +24,7 @@ ExSequence.prototype.setNextSequence = function (nextSequence) {
 ExSequence.prototype.run = function (recipientId, messageText, peter) {
     var self = this;
     var text = "";
-    if (History.get(recipientId).lastOutput == 'ex') {
+    if (History.get(recipientId).ex == "") {
         var exPattern = new RegExp("([0-9]{1,3})", "i");
         var exMatcher = exPattern.exec(messageText);
         if (exMatcher != null && exMatcher.length > 1) {
@@ -32,12 +32,12 @@ ExSequence.prototype.run = function (recipientId, messageText, peter) {
             console.log("Exercice Number is valid and number is : " + exMatcher[1]);
             History.resetTry(recipientId);
             text = Text.get("exercise");
-            History.get(recipientId).lastOutput = 'ex';
             self.messageSender.sendTextMessage(recipientId, text);
+            return;
         }
-    } else {
-        if (self.nextSequence != undefined) {
-            self.nextSequence.run(recipientId, messageText, peter);
-        }
+    }
+
+    if (self.nextSequence != undefined) {
+        self.nextSequence.run(recipientId, messageText, peter);
     }
 };

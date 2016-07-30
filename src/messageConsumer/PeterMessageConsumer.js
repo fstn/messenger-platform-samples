@@ -64,17 +64,26 @@ PeterMessageConsumer.prototype.setMessageSender = function (messageSender){
     self.lastSequence.setMessageSender(messageSender);
 };
 
-PeterMessageConsumer.prototype.consumeMessage = function (recipientId,messageText){
+PeterMessageConsumer.prototype.consumeMessage = function (recipientId,message){
     var self = this;
     var text = "";
     var url = undefined;
     History.get(recipientId).nbTry++;
-    if (History.get(recipientId).nbTry >= 2) {
+    if (History.get(recipientId).nbTry >= 4) {
         History.clear(recipientId);
         text = Text.get("retry");
         self.messageSender.sendTextMessage(recipientId,text);
-    } else {
-        this.initSequence.run(recipientId,messageText, self);
+    } else if(message.text != undefined){
+        this.initSequence.run(recipientId,message.text, self);
+    } else if(message.attachments != undefined){
+        message.attachments.forEach(function(attachment){
+
+            var isbn = History.get(recipientId).isbn;
+            var page =  History.get(recipientId).page;
+            var ex =  History.get(recipientId).ex;
+
+            self.db.push("/books/"+isbn+"/"+page+"/"+ex, '{"user":{"id":"'+recipientId+'"},{"teacher":{"isbn":"","page":""}');
+        })
     }
 };
 

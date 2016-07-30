@@ -94,8 +94,11 @@ var imageMessageData =
         "id": "451567701702888"
     }
     ,
-    "timestamp": 1469872505392, "message": {
-    "mid": "mid.1469872505278:18abfbb1a3904b5e93", "seq": 2801, "attachments": [{
+    "timestamp": 1469872505392,
+    "message": {
+        "mid": "mid.1469872505278:18abfbb1a3904b5e93",
+        "seq": 2801,
+        "attachments": [{
         "type": "image",
         "payload": {"url": "https://scontent.xx.fbcdn.net/v/t35.0-12/13682547_10209260646700674_1328638499_o.png?_nc_ad=z-m&oh=bce8c12056120defad3597ef5c831a49&oe=579DF0D9"}
     }]
@@ -114,14 +117,26 @@ setTimeout(function () {
     consumer.consumePostback(startMessageData)
 }, 2000);
 setTimeout(function () {
-    consumer.consumeMessage(isbnMessageData)
-}, 3000);
-setTimeout(function () {
-    consumer.consumeMessage(pageMessageData)
+    consumer.consumePostback(startMessageData)
 }, 4000);
 setTimeout(function () {
+    consumer.consumeMessage(isbnMessageData)
+}, 5000);
+setTimeout(function () {
+    consumer.consumeMessage(pageMessageData)
+}, 9000);
+setTimeout(function () {
     consumer.consumeMessage(exMessageData)
-}, 7000);
+}, 10000);
+setTimeout(function () {
+    consumer.consumeMessage(exMessageData)
+}, 11000);
 setTimeout(function () {
     consumer.consumeMessage(imageMessageData)
-}, 21000);
+ }, 20000);
+
+/*
+consumer.consumeMessage(firstMessageData);
+setTimeout(function () {
+    consumer.consumeMessage(imageMessageData);
+}, 3000);*/

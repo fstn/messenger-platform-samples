@@ -4,7 +4,7 @@ module.exports = MessageConsumer;
 
 const
     Logger = require('../Logger.js'),
-    FacebookMessageSender = require('../MessageSender/FacebookMessageSender.js'),
+    FacebookMessageSender = require('../messageSender/FacebookMessageSender.js'),
     Message = require('../Message.js'),
     Text = require('../Text.js'),
     IAMessageConsumer = require('./IAMessageConsumer.js'),
@@ -158,33 +158,29 @@ MessageConsumer.prototype.consumeMessage = function(event) {
     var message = event.message;
 
     Logger.log(event);
-    var messageText = message.text;
-    //var messageAttachments = message.attachments;
+        //var messageAttachments = message.attachments;
+        if ( History.get(senderId) == undefined || History.get(senderId).user == undefined ) {
+            self.messageSender.getUserData(senderId, function (user) {
+                History.clear(senderId);
+                History.get(senderId).user = user;
+                console.log("Reply for " + senderId + ", " + History.get(senderId).nbMessage);
+                if (self.isFirstMessage(senderId)) {
+                    self.messageSender.sendMessageData(senderId, Message.get("welcome_message"));
+                } else {
+                    self.ia.consumeMessage(senderId, message);
+                }
+                History.get(senderId).nbMessage++;
+            });
 
-    if (typeof History.get(senderId) == 'undefined') {
-        self.messageSender.getUserData(senderId, function (user) {
-            History.clear(senderId);
-            History.get(senderId).user = user;
-            console.log("Reply for "+senderId+", "+History.get(senderId).nbMessage);
-            if(self.isFirstMessage(senderId)){
-                self.messageSender.sendMessageData(senderId,Message.get("welcome_message"));
-            }else {
-                self.ia.consumeMessage(senderId, messageText);
+        } else {
+            console.log("Reply for " + senderId + ", " + History.get(senderId).nbMessage);
+            if (self.isFirstMessage(senderId)) {
+                self.messageSender.sendMessageData(senderId, Message.get("welcome_message"));
+            } else {
+                self.ia.consumeMessage(senderId, message);
             }
             History.get(senderId).nbMessage++;
-        });
-
-    } else {
-        console.log("Reply for "+senderId+", "+History.get(senderId).nbMessage);
-        if(self.isFirstMessage(senderId)){
-            self.messageSender.sendMessageData(senderId,Message.get("welcome_message"));
-        }else {
-            self.ia.consumeMessage(senderId, messageText);
         }
-        History.get(senderId).nbMessage++;
-    }
-
-
 };
 
 

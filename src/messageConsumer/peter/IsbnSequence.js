@@ -24,7 +24,7 @@ IsbnSequence.prototype.setNextSequence = function (nextSequence) {
 IsbnSequence.prototype.run = function (recipientId, messageText, peter) {
     var self = this;
     var text = "";
-    if (History.get(recipientId).lastOutput == 'isbn') {
+    if (History.get(recipientId).isbn == "") {
         var
             isbnPattern = new RegExp("((?:[0-9]-?){10,20})", "i");
         var isbnMatcher = isbnPattern.exec(messageText);
@@ -41,10 +41,10 @@ IsbnSequence.prototype.run = function (recipientId, messageText, peter) {
 
             History.get(recipientId).lastOutput = 'isbn';
             self.messageSender.sendTextMessage(recipientId, text);
-        } else {
-            if (self.nextSequence != undefined) {
-                self.nextSequence.run(recipientId, messageText, peter);
-            }
+            return;
         }
+    }
+    if (self.nextSequence != undefined) {
+        self.nextSequence.run(recipientId, messageText, peter);
     }
 };

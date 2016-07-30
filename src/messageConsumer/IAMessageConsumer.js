@@ -30,29 +30,35 @@ IAMessageConsumer.prototype.setMessageSender = function (messageSender){
 
 IAMessageConsumer.prototype.consumeMessage = function (recipientId, message) {
     var self = this;
+    if(message != undefined && message.text != undefined) {
 
-    var aiapi = apiai(APP_APIAP);
-    aiapi.language="FR";
-    var request = aiapi.textRequest(message);
+        var aiapi = apiai(APP_APIAP);
+        aiapi.language = "FR";
+        var request = aiapi.textRequest(message.text);
 
-    request.on('response', function(response) {
-        console.log(response);
-        var speech = response.result.fulfillment.speech;
-        if (speech != "") {
-            History.resetTry(recipientId);
-            self.messageSender.sendTextMessage(recipientId,speech);
-        } else {
-            if (self.nextConsumer != undefined) {
-                self.nextConsumer.consumeMessage(recipientId, message);
+        request.on('response', function (response) {
+            console.log(response);
+            var speech = response.result.fulfillment.speech;
+            if (speech != "") {
+                History.resetTry(recipientId);
+                self.messageSender.sendTextMessage(recipientId, speech);
+            } else {
+                if (self.nextConsumer != undefined) {
+                    self.nextConsumer.consumeMessage(recipientId, message);
+                }
             }
+        });
+
+        request.on('error', function (error) {
+            console.log(error);
+        });
+
+        request.end()
+    }else{
+        if (self.nextConsumer != undefined) {
+            self.nextConsumer.consumeMessage(recipientId, message);
         }
-    });
-
-    request.on('error', function(error) {
-        console.log(error);
-    });
-
-    request.end()
+    }
 
 
 }

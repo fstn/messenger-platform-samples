@@ -23,7 +23,7 @@ PageSequence.prototype.setNextSequence = function (nextSequence) {
 PageSequence.prototype.run = function (recipientId, messageText, peter) {
     var self = this;
     var text = "";
-    if (History.get(recipientId).lastOutput == 'page') {
+    if (History.get(recipientId).page == "") {
         var pagePattern = new RegExp("([0-9]{1,3})", "i");
         var pageMatcher = pagePattern.exec(messageText);
         if (pageMatcher != null && pageMatcher.length > 1) {
@@ -31,12 +31,11 @@ PageSequence.prototype.run = function (recipientId, messageText, peter) {
             console.log("Page Number is valid and number is : " + pageMatcher[1]);
             History.resetTry(recipientId);
             text = Text.get("page");
-            History.get(recipientId).lastOutput = 'page';
             self.messageSender.sendTextMessage(recipientId, text);
+            return;
         }
-    } else {
-        if (self.nextSequence != undefined) {
-            self.nextSequence.run(recipientId, messageText, peter);
-        }
+    }
+    if (self.nextSequence != undefined) {
+        self.nextSequence.run(recipientId, messageText, peter);
     }
 };
