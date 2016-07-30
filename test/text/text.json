@@ -21,6 +21,7 @@
     "Désolé mais ton livre n’ai pas encore dans ma base de donnée. N’hésite pas à réessayer plus tard ou à m’envoyer d’autres exercices",
     "Désolé mais il semblerait que ton livre ne soit pas encore dans ma base de données. N’hésite pas à réessayer plus tard ou à m’envoyer les exercices que tu as dans d’autres matières !"],
   "start": ["Demarrer"],
+  "thanksToHelpMe": ["Merci"],
   "learnMe": ["Pour te trouver la réponse plus rapidement, j'ai besoin de ton aide, est-ce que tu peux m'envoyer une photo de la page de ton exercice stp ?"],
   "waitPlease": ["Bien reçu ! Je reviens dans un instant."]
 

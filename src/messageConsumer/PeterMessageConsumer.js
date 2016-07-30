@@ -83,6 +83,11 @@ PeterMessageConsumer.prototype.consumeMessage = function (recipientId,message){
             var ex =  History.get(recipientId).ex;
 
             self.db.push("/books/"+isbn+"/"+page+"/"+ex, '{"user":{"id":"'+recipientId+'"},{"teacher":{"isbn":"","page":""}');
+            text = Text.get("thanksToHelpMe");
+            self.messageSender.sendTextMessage(recipientId,text);
+            self.messageSender.sendGifMessage(recipientId,"https://media.giphy.com/media/LkjlH3rVETgsg/giphy.gif");
+
+
         })
     }
 };

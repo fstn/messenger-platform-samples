@@ -177,7 +177,7 @@ FacebookMessageSender.prototype.sendMessageData = function (recipientId,messageP
  * Send a Gif using the Send API.
  *
  */
-FacebookMessageSender.prototype.sendGifMessage = function (recipientId) {
+FacebookMessageSender.prototype.sendGifMessage = function (recipientId,url) {
     var self = this;
     var messageData = {
         recipient: {
@@ -187,7 +187,7 @@ FacebookMessageSender.prototype.sendGifMessage = function (recipientId) {
             attachment: {
                 type: "image",
                 payload: {
-                    url: SERVER_URL + "/assets/instagram_logo.gif"
+                    url: url
                 }
             }
         }
