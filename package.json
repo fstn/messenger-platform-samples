@@ -12,7 +12,7 @@
     "type": "git",
     "url": "https://source.developers.google.com/p/messenger-get-started/r/default"
   },
-  "author": "Facebook",
+  "author": "FacebookMessageSender",
   "license": "ISC",
   "dependencies": {
     "apiai": "^2.0.5",

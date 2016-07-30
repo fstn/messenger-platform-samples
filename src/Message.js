@@ -1,22 +1,19 @@
-module.exports = Message;
+module.exports = {
+    get : _get
+};
 
 const
-    fs = require('fs');
-Text = require("./Text.js");
+    fs = require('fs'),
+    Text = require("./Text.js");
 
-function Message() {
-    this.msg = JSON.parse(fs.readFileSync('./message/message.json', 'utf8'));
-    this.text = new Text();
-}
+var msg = JSON.parse(fs.readFileSync('./message/message.json', 'utf8'));
 
-Message.prototype.get = function (key) {
-
-    var self = this;
-    if (this.msg[key] == undefined) {
+function _get(key) {
+    if (msg[key] == undefined) {
         throw new Error("UnableToGetMessageKeyFor" + key + "Exception");
     }
     var result;
-    result = this.msg[key];
+    result = msg[key];
     var resultAsString = JSON.stringify(result);
     var textToTranslatePattern = /#([^#]*)#/igm;
     var textToTranslateMatcher;
@@ -25,9 +22,9 @@ Message.prototype.get = function (key) {
         matcher.push(textToTranslateMatcher[1]);
     }
     matcher.forEach(function (match) {
-        var translate = self.text.get(match);
+        var translate = Text.get(match);
         resultAsString = resultAsString.replace("#" + match + "#", translate);
     });
     result = JSON.parse(resultAsString);
     return result;
-};
+}

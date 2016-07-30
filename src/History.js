@@ -5,7 +5,8 @@
 module.exports = {
     get : _get,
     set : _set,
-    clear : _clear
+    clear : _clear,
+    resetTry : _resetTry
 
 } ;
 var sessions = {isbn:'',page:"",ex:'',nbMessage:0};
@@ -23,4 +24,10 @@ function _set(recipientId,value){
 
 function _clear(recipientId) {
     sessions[recipientId] = {isbn:'',page:"",ex:'',nbMessage:0};
+}
+
+function _resetTry(recipientId) {
+    if(  _get(recipientId) != undefined) {
+        _get(recipientId).nbTry = 0;
+    }
 }

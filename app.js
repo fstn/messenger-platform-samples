@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-present, Facebook, Inc.
+ * Copyright 2016-present, FacebookMessageSender, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the license found in the
@@ -12,15 +12,10 @@
 
 const 
   bodyParser = require('body-parser'),
-  config = require('config'),
   express = require('express'),
   https = require('https'),
-    MessageConsumer = require('./src/MessageConsumer.js'),
-    Logger = require('./src/Logger.js'),
-    Facebook = require('./src/Facebook.js'),
-    IA = require('./src/IA.js'),
-    Peter = require('./src/Peter.js'),
-    Conversational = require('./src/Conversational.js');
+    MessageConsumer = require('./src/messageConsumer/MessageConsumer.js'),
+    FacebookMessageSender = require('./src/messageSender/FacebookMessageSender.js');
 
 
 /*
@@ -28,15 +23,14 @@ const
  * set them using environment variables or modifying the config file in /config.
  *
  */
-var facebook = new Facebook();
-var messageConsumer = new MessageConsumer();
+var facebook = new FacebookMessageSender();
+var messageConsumer = new MessageConsumer(facebook);
+
 var app = express();
 
 app.set('port', process.env.PORT || 5000);
 app.use(bodyParser.json({verify: facebook.verifyRequestSignature}));
 app.use('/static', express.static('book'));
-
-
 
 
 /*

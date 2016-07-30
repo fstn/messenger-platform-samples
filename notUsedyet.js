@@ -97,7 +97,7 @@ function sendReceiptMessage(recipientId) {
                 type: "template",
                 payload: {
                     template_type: "receipt",
-                    recipient_name: "Peter Chang",
+                    recipient_name: "PeterMessageConsumer Chang",
                     order_number: receiptId,
                     currency: "USD",
                     payment_method: "Visa 1234",

@@ -1,7 +1,7 @@
 {
   "hello": ["Pour t'aider à faire tes devoirs ! Donne moi l'ISBN de ton livre suivi du numéro de la page et de ton exercice pour que je puisse chercher les réponses à tes devoirs !",
     "Pour pouvoir t'aider, j'ai besoin du numéro ISBN de ton livre, il se trouve au niveau du code barre de ton livre. ",
-    "Merci de m'avoir ajouté en ami. Si tu as besoin d'aide pour tes devoirs, envoie moi simplement le numéro ISBN de ton livre, la page et le numéro de ton exercice. N'hésite pas à en parler à tes amis, Peter",
+    "Merci de m'avoir ajouté en ami. Si tu as besoin d'aide pour tes devoirs, envoie moi simplement le numéro ISBN de ton livre, la page et le numéro de ton exercice. N'hésite pas à en parler à tes amis, PeterMessageConsumer",
     "Donne moi l'ISBN de ton livre suivi du numéro de la page et de l'exercice et je m'occupe du reste ;)",
     "Je suis là pour t'aider à faire tes devoirs. Pour cela, il faut que tu me donnes l'ISBN de ton livre, tu le trouveras près du code barre."
   ],
