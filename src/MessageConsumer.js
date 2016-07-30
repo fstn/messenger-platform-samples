@@ -68,6 +68,9 @@ MessageConsumer.prototype.consumeRequest = function (req, res) {
 MessageConsumer.prototype.consumePostback = function (event) {
     var self = this;
     Logger.log(event);
+    console.log("Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
+    console.log("Message received: "+JSON.stringify(message));
+
     var senderId = event.sender.id;
     var recipientId = event.recipient.id;
     var timeOfPostback = event.timestamp;
