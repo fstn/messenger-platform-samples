@@ -4,7 +4,7 @@ module.exports = PeterMessageConsumer;
 
 const Text = require("../Text.js"),
     Book = require("../Book.js"),
-    FacebookMessageSender = require("../MessageSender/FacebookMessageSender.js"),
+    FacebookMessageSender = require("../messageSender/FacebookMessageSender.js"),
     History = require("../History.js"),
     MessageModel = require("../model/MessageModel.js"),
     ButtonModel = require("../model/ButtonModel.js"),
