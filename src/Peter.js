@@ -34,6 +34,7 @@ Peter.prototype.getImageUrl = function(isbn,page,ex) {
 
 
 Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
+    var self = this;
     var text = "";
     var url = undefined;
     History.get(recipientId).nbTry++;
@@ -129,16 +130,22 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
             text = this.msg.get("waitPlease");
             History.clear(recipientId);
 
-           /* if(this.book.fileExists( History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex)) {
+           if(this.book.fileExists( History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex)) {
                 url = this.getImageUrl(History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex);
                 History.clear(recipientId);
+
+                self.facebook.ssendTypingOn();
+                setTimeout(function(){self.facebook.ssendTypingOff()},2000);
+                setTimeout(function(){callBack(recipientId,text,url);},5000);
             }else{
-                text = this.msg.get("fileNotYetAvailable");
-                History.clear(recipientId);
-            }*/
+               text = this.msg.get("needMoreTime");
+               History.clear(recipientId);
+               self.facebook.ssendTypingOn();
+               setTimeout(function(){self.facebook.ssendTypingOff()},2000);
+               setTimeout(function(){callBack(recipientId,text,url);},5000);
+            }
         }
     }
-    callBack(recipientId,text,url);
 };
 
 Peter.prototype.resetTry = function(recipientId) {
