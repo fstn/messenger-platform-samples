@@ -113,12 +113,15 @@ Peter.prototype.consumeMessage = function (recipientId,messageText,callBack){
             //TODO text = text.replace("#NAME#", History.get(recipientId).user.first_name);
 
             History.get(recipientId).lastOutput = 'isbn';
+            callBack(recipientId,text,url);
         } else if (History.get(recipientId).page == '') {
             text = this.msg.get("page");
             History.get(recipientId).lastOutput = 'page';
+            callBack(recipientId,text,url);
         } else if (History.get(recipientId).ex == '') {
             text = this.msg.get("exercise");
             History.get(recipientId).lastOutput = 'ex';
+            callBack(recipientId,text,url);
         } else {
             History.get(recipientId).lastOutput = '';
             text = this.msg.get("result");

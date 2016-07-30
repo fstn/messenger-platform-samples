@@ -155,9 +155,6 @@ MessageConsumer.prototype.consumeMessage = function(event) {
     var message = event.message;
 
     Logger.log(event);
-    console.log("Received message for user %d and page %d at %d with message:", senderID, recipientID, timeOfMessage);
-    console.log("Message received: "+JSON.stringify(message));
-
     var messageText = message.text;
     //var messageAttachments = message.attachments;
 
