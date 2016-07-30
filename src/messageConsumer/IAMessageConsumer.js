@@ -5,7 +5,8 @@ module.exports = IAMessageConsumer;
 const
     config = require('config'),
     request = require('request'),
-    apiai = require('apiai');
+    apiai = require('apiai'),
+    History = require("../History.js");
 
 
 // App Secret can be retrieved from the App Dashboard
