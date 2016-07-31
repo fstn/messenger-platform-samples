@@ -20,6 +20,8 @@ function BookService(app){
 BookService.prototype.list = function(){
     var self = this;
     self.app.get('/books', function(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         var listOfBooks = self.db.getData("/books");
         res.json(listOfBooks);
     });
@@ -28,6 +30,8 @@ BookService.prototype.list = function(){
 BookService.prototype.listUnMapped = function(){
     var self = this;
     self.app.get('/todo/books', function(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         var listOfBooks = self.db.getData("/todo/books");
         res.json(listOfBooks);
     });
