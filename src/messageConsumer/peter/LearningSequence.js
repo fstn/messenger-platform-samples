@@ -42,7 +42,7 @@ LearningSequence.prototype.run = function (recipientId, message, peter) {
     var ex = History.get(recipientId).ex;
     if(message.attachments != undefined && isbn != "" && page != "" && ex != "") {
         message.attachments.forEach(function (attachment) {
-            var path = "book/teacher/" + isbn + "/" + page +"/";
+            var path = "static/teacher/" + isbn + "/" + page +"/";
             shell.mkdir('-p',path );
                 FileRecorder.record(attachment.payload.url, path + recipientId + ".jpg",
                 function () {

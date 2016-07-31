@@ -2,6 +2,7 @@
 
 module.exports = PeterMessageConsumer;
 
+
 const Text = require("../Text.js"),
     Book = require("../Book.js"),
     FacebookMessageSender = require("../messageSender/FacebookMessageSender.js"),
@@ -18,8 +19,6 @@ const Text = require("../Text.js"),
     LearningSequence = require("./peter/LearningSequence.js"),
     JsonDB = require('node-json-db');
 ;
-
-const IMAGE_URL = "https://webhookpeter.herokuapp.com/static/";
 
 
 function PeterMessageConsumer(){
@@ -46,10 +45,6 @@ function PeterMessageConsumer(){
 }
 
 
-PeterMessageConsumer.prototype.getImageUrl = function(isbn,page,ex) {
-    var self = this;
-    url =   IMAGE_URL + isbn + "/" +isbn+"-"+ this.book.mapping[isbn][page] + ".jpg"
-};
 
 PeterMessageConsumer.prototype.setNextConsumer = function (nextConsumer){
     var self = this;

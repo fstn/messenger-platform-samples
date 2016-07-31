@@ -40,7 +40,7 @@ LastSequence.prototype.run = function (recipientId, message, peter) {
         self.messageSender.sendTextMessage(recipientId, text);
 
         if (self.book.fileExists(History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex)) {
-            url = this.getImageUrl(History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex);
+            url = self.book.getTeacherImageUrl(History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex);
             History.clear(recipientId);
 
             self.messageSender.ssendTypingOn();
