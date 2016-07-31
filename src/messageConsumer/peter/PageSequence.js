@@ -30,12 +30,19 @@ PageSequence.prototype.run = function (recipientId, messageText, peter) {
             History.get(recipientId).page = pageMatcher[1];
             console.log("Page Number is valid and number is : " + pageMatcher[1]);
             History.resetTry(recipientId);
-            text = Text.get("page");
-            self.messageSender.sendTextMessage(recipientId, text);
+            if (self.nextSequence != undefined) {
+                self.nextSequence.speak(recipientId,peter);
+            }
             return;
         }
     }
     if (self.nextSequence != undefined) {
         self.nextSequence.run(recipientId, messageText, peter);
     }
+};
+
+PageSequence.prototype.speak = function (recipientId,peter){
+    var self = this;
+    var text = Text.get("page");
+    self.messageSender.sendTextMessage(recipientId, text);
 };

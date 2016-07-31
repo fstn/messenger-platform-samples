@@ -117,23 +117,18 @@ setTimeout(function () {
     consumer.consumePostback(startMessageData)
 }, 2000);
 setTimeout(function () {
-    consumer.consumePostback(startMessageData)
-}, 4000);
-setTimeout(function () {
     consumer.consumeMessage(isbnMessageData)
 }, 5000);
+
 setTimeout(function () {
     consumer.consumeMessage(pageMessageData)
-}, 9000);
+}, 6000);
 setTimeout(function () {
     consumer.consumeMessage(exMessageData)
-}, 10000);
-setTimeout(function () {
-    consumer.consumeMessage(exMessageData)
-}, 11000);
+}, 8000);
 setTimeout(function () {
     consumer.consumeMessage(imageMessageData)
- }, 20000);
+ }, 10000);
 
 /*
 consumer.consumeMessage(firstMessageData);

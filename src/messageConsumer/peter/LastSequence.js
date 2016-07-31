@@ -66,3 +66,7 @@ LastSequence.prototype.run = function (recipientId, messageText, peter) {
         self.nextSequence.run(recipientId, messageText, peter);
     }
 };
+
+LastSequence.prototype.speak = function (recipientId,peter){
+    var self = this;
+};

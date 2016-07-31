@@ -35,16 +35,21 @@ IsbnSequence.prototype.run = function (recipientId, messageText, peter) {
             History.get(recipientId).isbn = tmpIsbn;
             console.log("ISBN Number is valid and number is : " + tmpIsbn);
             History.resetTry(recipientId);
-            text = Text.get("hello");
-
+            if (self.nextSequence != undefined) {
+                self.nextSequence.speak(recipientId,peter);
+            }
             //TODO text = text.replace("#NAME#", History.get(recipientId).user.first_name);
 
             History.get(recipientId).lastOutput = 'isbn';
-            self.messageSender.sendTextMessage(recipientId, text);
             return;
         }
     }
     if (self.nextSequence != undefined) {
         self.nextSequence.run(recipientId, messageText, peter);
     }
+};
+
+IsbnSequence.prototype.speak = function (recipientId,peter){
+    var text = Text.get("hello");
+    self.messageSender.sendTextMessage(recipientId, text);
 };

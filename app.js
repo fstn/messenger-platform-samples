@@ -15,6 +15,7 @@ const
   express = require('express'),
   https = require('https'),
     MessageConsumer = require('./src/messageConsumer/MessageConsumer.js'),
+    BookService = require('./src/services/BookService.js'),
     FacebookMessageSender = require('./src/messageSender/FacebookMessageSender.js');
 
 
@@ -27,6 +28,12 @@ var facebook = new FacebookMessageSender();
 var messageConsumer = new MessageConsumer(facebook);
 
 var app = express();
+
+/**
+ * Rest API that manage books
+ * @type {BookService}
+ */
+var bookService = new BookService(app);
 
 app.set('port', process.env.PORT || 5000);
 app.use(bodyParser.json({verify: facebook.verifyRequestSignature}));

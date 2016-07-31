@@ -31,13 +31,19 @@ ExSequence.prototype.run = function (recipientId, messageText, peter) {
             History.get(recipientId).ex = exMatcher[1];
             console.log("Exercice Number is valid and number is : " + exMatcher[1]);
             History.resetTry(recipientId);
-            text = Text.get("exercise");
-            self.messageSender.sendTextMessage(recipientId, text);
-            return;
+            if (self.nextSequence != undefined) {
+                self.nextSequence.speak(recipientId, peter);
+            }
         }
     }
 
     if (self.nextSequence != undefined) {
         self.nextSequence.run(recipientId, messageText, peter);
     }
+};
+
+ExSequence.prototype.speak = function (recipientId,peter){
+    var self = this;
+    var text = Text.get("exercise");
+    self.messageSender.sendTextMessage(recipientId, text);
 };

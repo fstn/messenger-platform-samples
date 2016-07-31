@@ -29,8 +29,6 @@ function PeterMessageConsumer(){
     History.clear();
     this.db = new JsonDB("peter", true, false);
 
-    this.db.push("/users/1017776525008546/books", '[{"isbn":"121313132"},{"isbn":"12312313213"},{"isbn":"12313213123"}]');
-
     this.lastSequence = new LastSequence();
     this.exSequence = new ExSequence();
     this.exSequence.setNextSequence(this.lastSequence);
@@ -81,13 +79,27 @@ PeterMessageConsumer.prototype.consumeMessage = function (recipientId,message){
             var isbn = History.get(recipientId).isbn;
             var page =  History.get(recipientId).page;
             var ex =  History.get(recipientId).ex;
+            try {
+                self.db.getData("/todo/books/"+isbn+"/"+page+"/");
+                db.push("/arraytest/myarray[]", {obj:'test'}, true);
+                self.db.push("/todo/books/" + isbn + "/" + page + "/users[]", {"id": recipientId});
+                text = Text.get("thanksToHelpMe");
+                self.messageSender.sendTextMessage(recipientId, text);
+                self.messageSender.sendGifMessage(recipientId, "https://media.giphy.com/media/LkjlH3rVETgsg/giphy.gif")
+            } catch(error) {
+                /**
+                 * This book and page is already present in to do list, just add to put user information
+                 */
+                if(error.message.startsWith("Can't find dataPath:")){
+                    self.db.push("/todo/books/" + isbn + "/" + page, {"users":[{"id": recipientId}],"teacher":{"isbn":"","page":""}});
+                    text = Text.get("thanksToHelpMe");
+                    self.messageSender.sendTextMessage(recipientId, text);
+                    self.messageSender.sendGifMessage(recipientId, "https://media.giphy.com/media/LkjlH3rVETgsg/giphy.gif")
+                }else{
+                    throw error;
+                }
 
-            self.db.push("/books/"+isbn+"/"+page+"/"+ex, '{"user":{"id":"'+recipientId+'"},{"teacher":{"isbn":"","page":""}');
-            text = Text.get("thanksToHelpMe");
-            self.messageSender.sendTextMessage(recipientId,text);
-            self.messageSender.sendGifMessage(recipientId,"https://media.giphy.com/media/LkjlH3rVETgsg/giphy.gif");
-
-
+            }
         })
     }
 };
