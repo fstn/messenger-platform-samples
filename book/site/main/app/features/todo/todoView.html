@@ -1,3 +1,10 @@
 <div class="row">
-    {{$ctrl.todos}}
+    <div ng-repeat="(isbn,todoLine) in $ctrl.todos">
+
+        <span >{{isbn}}</span>
+        <div ng-repeat="(page,todoContent) in todoLine">
+        <span>{{page}}</span>
+        <img src="{{todoContent.files[0].url}}"/>
+            </div>
+    </div>
 </div>

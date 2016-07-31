@@ -10,7 +10,10 @@ const
     Message = require("../../Message.js"),
     Text = require("../../Text.js"),
     Book = require("../../Book.js"),
-    JsonDB = require('node-json-db');
+    JsonDB = require('node-json-db'),
+    fs = require('fs'),
+    shell = require('shelljs'),
+    FileRecorder = require('.././../utils/FileRecorder.js');
 
 
 function LearningSequence() {
@@ -39,34 +42,43 @@ LearningSequence.prototype.run = function (recipientId, message, peter) {
     var ex = History.get(recipientId).ex;
     if(message.attachments != undefined && isbn != "" && page != "" && ex != "") {
         message.attachments.forEach(function (attachment) {
-
-            try {
-                self.db.getData("/todo/books/" + isbn + "/" + page + "/");
-                db.push("/arraytest/myarray[]", {obj: 'test'}, true);
-                self.db.push("/todo/books/" + isbn + "/" + page + "/users[]", {"id": recipientId});
-                text = Text.get("thanksToHelpMe");
-                self.messageSender.sendTextMessage(recipientId, text);
-                self.messageSender.sendGifMessage(recipientId, "https://media.giphy.com/media/LkjlH3rVETgsg/giphy.gif")
-            } catch (error) {
-                /**
-                 * This book and page is already present in to do list, just add to put user information
-                 */
-                if (error.message.startsWith("Can't find dataPath:")) {
-                    self.db.push("/todo/books/" + isbn + "/" + page, {
-                        "users": [{"id": recipientId}],
-                        "teacher": {"isbn": "", "page": ""}
-                    });
-                    text = Text.get("thanksToHelpMe");
-                    self.messageSender.sendTextMessage(recipientId, text);
-                    self.messageSender.sendGifMessage(recipientId, "https://media.giphy.com/media/LkjlH3rVETgsg/giphy.gif")
-                } else {
-                    throw error;
-                }
-            }
+            shell.mkdir('-p', "book/teacher/" + isbn + "/" + page);
+                FileRecorder.record(attachment.payload.url, "book/teacher/" + isbn + "/" + page + "/" + recipientId + ".jpg",
+                function () {
+                    try {
+                        self.db.getData("/todo/books/" + isbn + "/" + page + "/");
+                        db.push("/arraytest/myarray[]", {obj: 'test'}, true);
+                        self.db.push("/todo/books/" + isbn + "/" + page + "/users[]", {"id": recipientId});
+                        self.db.push("/todo/books/" + isbn + "/" + page + "/files[]", {
+                            "url": attachment.payload.url,
+                            "page": page
+                        });
+                        text = Text.get("thanksToHelpMe");
+                        self.messageSender.sendTextMessage(recipientId, text);
+                        self.messageSender.sendGifMessage(recipientId, "https://media.giphy.com/media/LkjlH3rVETgsg/giphy.gif")
+                    } catch (error) {
+                        /**
+                         * This book and page is already present in to do list, just add to put user information
+                         */
+                        if (error.message.startsWith("Can't find dataPath:")) {
+                            self.db.push("/todo/books/" + isbn + "/" + page, {
+                                "users": [{"id": recipientId}],
+                                "files": [{"url": attachment.payload.url, "page": page}],
+                                "teacher": {"isbn": "", "page": ""}
+                            });
+                            text = Text.get("thanksToHelpMe");
+                            self.messageSender.sendTextMessage(recipientId, text);
+                            self.messageSender.sendGifMessage(recipientId, "https://media.giphy.com/media/LkjlH3rVETgsg/giphy.gif")
+                        } else {
+                            throw error;
+                        }
+                    }
+                });
+            });
             History.clear(recipientId);
             return;
-        })
     }
+
     if (self.nextSequence != undefined) {
         self.nextSequence.run(recipientId, message, peter);
     }

@@ -86,7 +86,7 @@ var imageMessageData =
         "seq": 2801,
         "attachments": [{
         "type": "image",
-        "payload": {"url": "https://scontent.xx.fbcdn.net/v/t35.0-12/13682547_10209260646700674_1328638499_o.png?_nc_ad=z-m&oh=bce8c12056120defad3597ef5c831a49&oe=579DF0D9"}
+        "payload": {"url": "https://scontent-cdg2-1.xx.fbcdn.net/v/t34.0-12/13875059_10209270593189330_1796345470_n.png?oh=802478bac95a3f49f23344590d84bca4&oe=579FEA49"}
     }]
 }
 };
