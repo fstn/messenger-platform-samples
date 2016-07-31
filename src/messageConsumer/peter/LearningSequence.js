@@ -42,15 +42,16 @@ LearningSequence.prototype.run = function (recipientId, message, peter) {
     var ex = History.get(recipientId).ex;
     if(message.attachments != undefined && isbn != "" && page != "" && ex != "") {
         message.attachments.forEach(function (attachment) {
-            shell.mkdir('-p', "book/teacher/" + isbn + "/" + page);
-                FileRecorder.record(attachment.payload.url, "book/teacher/" + isbn + "/" + page + "/" + recipientId + ".jpg",
+            var path = "book/teacher/" + isbn + "/" + page +"/";
+            shell.mkdir('-p',path );
+                FileRecorder.record(attachment.payload.url, path + recipientId + ".jpg",
                 function () {
                     try {
                         self.db.getData("/todo/books/" + isbn + "/" + page + "/");
                         db.push("/arraytest/myarray[]", {obj: 'test'}, true);
                         self.db.push("/todo/books/" + isbn + "/" + page + "/users[]", {"id": recipientId});
                         self.db.push("/todo/books/" + isbn + "/" + page + "/files[]", {
-                            "url": attachment.payload.url,
+                            "url": path+recipientId + ".jpg",
                             "page": page
                         });
                         text = Text.get("thanksToHelpMe");
@@ -63,7 +64,7 @@ LearningSequence.prototype.run = function (recipientId, message, peter) {
                         if (error.message.startsWith("Can't find dataPath:")) {
                             self.db.push("/todo/books/" + isbn + "/" + page, {
                                 "users": [{"id": recipientId}],
-                                "files": [{"url": attachment.payload.url, "page": page}],
+                                "files": [{"url": path+recipientId + ".jpg", "page": page}],
                                 "teacher": {"isbn": "", "page": ""}
                             });
                             text = Text.get("thanksToHelpMe");
