@@ -59,7 +59,10 @@ LastSequence.prototype.run = function (recipientId, messageText, peter) {
             setTimeout(function () {
                 self.messageSender.sendTextMessage(recipientId, text);
                 peter.startLearning(recipientId, History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex);
-            }, 6000);
+            }, 5000);
+            setTimeout(function () {
+                peter.startLearning(recipientId, History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex);
+            }, 8000);
         }
     }
     if (self.nextSequence != undefined) {

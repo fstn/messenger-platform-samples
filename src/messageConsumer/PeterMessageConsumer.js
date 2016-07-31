@@ -98,8 +98,8 @@ PeterMessageConsumer.prototype.consumeMessage = function (recipientId,message){
                 }else{
                     throw error;
                 }
-
             }
+            History.clear(recipientId);
         })
     }
 };

@@ -24,6 +24,9 @@ InitSequence.prototype.setNextSequence = function(nextSequence){
 InitSequence.prototype.run = function(recipientId,messageText, peter){
     var self = this;
     var text = "";
+    if(messageText == "reset"){
+        History.clear();
+    }
    /* if (History.get(recipientId).lastOutput == 'page') {
         var isbnPattern = new RegExp("((?:[0-9]-?){10,20})", "i");
         var isbnMatcher = isbnPattern.exec(messageText);
