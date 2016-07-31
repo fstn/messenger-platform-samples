@@ -7,6 +7,6 @@
 angular.module('Peter')
     .factory('Todo', ['$resource',
         function($resource){
-            return $resource('https://webhookpeter.herokuapp.com/static/todo/books');
+            return $resource('https://webhookpeter.herokuapp.com/todo/books');
         }]
     );

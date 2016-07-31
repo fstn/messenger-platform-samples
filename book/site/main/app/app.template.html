@@ -1,0 +1,17 @@
+<div ng-controller="MainController" class="it-fill">
+    <!-- Login view -->
+    <div ng-if="!$root.user" class="it-fill" ng-include="'app/features/login/loginView.html'"></div>
+
+    <!-- View container -->
+    <div ng-if="$root.user" class="container-fluid it-fill">
+        <!-- View title -->
+        <div class="row" ng-show="$root.pageTitle && $root.pageTitle.length > 0">
+            <div class="it-view-header col-md-12">
+                <h3>{{$root.pageTitle | translate}}</h3>
+                <hr/>
+            </div>
+        </div>
+        <!-- View content -->
+        <div ng-view class="ng-view-class"></div>
+    </div>
+</div>
