@@ -24,10 +24,10 @@ LastSequence.prototype.setNextSequence = function (nextSequence) {
     self.nextSequence = nextSequence;
 };
 
-LastSequence.prototype.run = function (recipientId, messageText, peter) {
+LastSequence.prototype.run = function (recipientId, message, peter) {
     var self = this;
 
-    if (History.get(recipientId).page != "" && History.get(recipientId).ex != "" && History.get(recipientId).isbn != "") {
+    if (message.text != undefined && History.get(recipientId).page != "" && History.get(recipientId).ex != "" && History.get(recipientId).isbn != "") {
         History.get(recipientId).lastOutput = '';
         var text = "";
         text = Text.get("result");
@@ -58,15 +58,15 @@ LastSequence.prototype.run = function (recipientId, messageText, peter) {
             }, 2000);
             setTimeout(function () {
                 self.messageSender.sendTextMessage(recipientId, text);
-                peter.startLearning(recipientId, History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex);
             }, 5000);
             setTimeout(function () {
-                peter.startLearning(recipientId, History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex);
+                self.nextSequence.speak(recipientId,peter);
             }, 8000);
+
         }
     }
     if (self.nextSequence != undefined) {
-        self.nextSequence.run(recipientId, messageText, peter);
+        self.nextSequence.run(recipientId, message, peter);
     }
 };
 

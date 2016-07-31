@@ -21,13 +21,13 @@ IsbnSequence.prototype.setNextSequence = function (nextSequence) {
     self.nextSequence = nextSequence;
 };
 
-IsbnSequence.prototype.run = function (recipientId, messageText, peter) {
+IsbnSequence.prototype.run = function (recipientId, message, peter) {
     var self = this;
     var text = "";
     if (History.get(recipientId).isbn == "") {
         var
             isbnPattern = new RegExp("((?:[0-9]-?){10,20})", "i");
-        var isbnMatcher = isbnPattern.exec(messageText);
+        var isbnMatcher = isbnPattern.exec(message.text);
         if (isbnMatcher != null && isbnMatcher.length > 1) {
             var tmpIsbn = isbnMatcher[1];
             tmpIsbn = tmpIsbn.replace(/-/g, "");
@@ -45,7 +45,7 @@ IsbnSequence.prototype.run = function (recipientId, messageText, peter) {
         }
     }
     if (self.nextSequence != undefined) {
-        self.nextSequence.run(recipientId, messageText, peter);
+        self.nextSequence.run(recipientId, message, peter);
     }
 };
 

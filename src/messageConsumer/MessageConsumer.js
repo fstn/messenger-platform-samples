@@ -128,9 +128,11 @@ MessageConsumer.prototype.consumeAuthentication = function(event) {
         "through param '%s' at %d", senderId, recipientId, passThroughParam,
         timeOfAuth);
 
+    self.messageSender.sendMessageData(senderId, Message.get("welcome_message"));
+
     // When an authentication is received, we'll send a message back to the sender
     // to let them know it was successful.
-    self.messageSender.sendTextMessage(senderId, "Authentication successful");
+    //self.messageSender.sendTextMessage(senderId, "Authentication successful");
 };
 
 
@@ -164,21 +166,13 @@ MessageConsumer.prototype.consumeMessage = function(event) {
                 History.clear(senderId);
                 History.get(senderId).user = user;
                 console.log("Reply for " + senderId + ", " + History.get(senderId).nbMessage);
-                if (self.isFirstMessage(senderId)) {
-                    self.messageSender.sendMessageData(senderId, Message.get("welcome_message"));
-                } else {
-                    self.ia.consumeMessage(senderId, message);
-                }
+                self.ia.consumeMessage(senderId, message);
                 History.get(senderId).nbMessage++;
             });
 
         } else {
             console.log("Reply for " + senderId + ", " + History.get(senderId).nbMessage);
-            if (self.isFirstMessage(senderId)) {
-                self.messageSender.sendMessageData(senderId, Message.get("welcome_message"));
-            } else {
-                self.ia.consumeMessage(senderId, message);
-            }
+            self.ia.consumeMessage(senderId, message);
             History.get(senderId).nbMessage++;
         }
 };

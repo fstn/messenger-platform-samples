@@ -14,7 +14,7 @@ const
     MessageConsumer = require('../src/MessageConsumer/MessageConsumer.js');
 
 
-var firstMessageData =
+var authenticationMessageData =
 {
     "sender": {
         "id": "1017776525008546"
@@ -22,10 +22,11 @@ var firstMessageData =
     ,
     "recipient": {
         "id": "451567701702888"
+    },
+    "timestamp": 1234567890,
+    "optin": {
+        "ref": "PASS_THROUGH_PARAM"
     }
-    ,
-    "timestamp": 1469595066596,
-    "message": {"mid": "mid.1467661761380:6e08038d213c268f13", "seq": 146, "text": "hey"}
 };
 
 var startMessageData =
@@ -111,24 +112,31 @@ var consumer = new MessageConsumer(sender);
 sender.sendTextMessage(1017776525008546, "###########################################################################################################################################################################################################################################");
 
 setTimeout(function () {
-    consumer.consumeMessage(firstMessageData)
+    sender.sendTextMessage(1017776525008546, "echo authenticationMessageData");
+    consumer.consumeAuthentication(authenticationMessageData)
+
 }, 1000);
 setTimeout(function () {
+    sender.sendTextMessage(1017776525008546, "echo startMessageData");
     consumer.consumePostback(startMessageData)
-}, 2000);
+}, 1500);
 setTimeout(function () {
+    sender.sendTextMessage(1017776525008546, "echo isbnMessageData");
     consumer.consumeMessage(isbnMessageData)
-}, 5000);
+}, 2000);
 
 setTimeout(function () {
+    sender.sendTextMessage(1017776525008546, "echo pageMessageData");
     consumer.consumeMessage(pageMessageData)
-}, 6000);
+}, 2500);
 setTimeout(function () {
+    sender.sendTextMessage(1017776525008546, "echo exMessageData");
     consumer.consumeMessage(exMessageData)
-}, 8000);
+}, 3000);
 setTimeout(function () {
+    sender.sendTextMessage(1017776525008546, "echo imageMessageData");
     consumer.consumeMessage(imageMessageData)
- }, 10000);
+}, 12000);
 
 /*
 consumer.consumeMessage(firstMessageData);
