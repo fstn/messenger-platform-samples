@@ -1,0 +1,15 @@
+{
+  "name": "shelljs",
+  "homepage": "https://github.com/arturadib/shelljs",
+  "version": "0.7.3",
+  "_release": "0.7.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.7.3",
+    "commit": "d8c50b703c090cf32725ec9c7a80afe2293af0b4"
+  },
+  "_source": "https://github.com/arturadib/shelljs.git",
+  "_target": "^0.7.3",
+  "_originalSource": "shelljs",
+  "_direct": true
+}
