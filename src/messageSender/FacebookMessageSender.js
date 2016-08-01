@@ -152,8 +152,8 @@ FacebookMessageSender.prototype.sendMessage = function (messageData) {
                 messageId, recipientId);
         } else {
             console.error("Unable to send message."+JSON.stringify(self.messageData));
-            console.error(response);
-            console.error(error);
+            var stack = new Error().stack;
+            console.log( stack );
         }
     });
 };

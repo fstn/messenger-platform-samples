@@ -11,7 +11,8 @@ const
     Message = require('../src/Message.js'),
     FakeMessageSender = require('./FakeMessageSender.js'),
     FacebookMessageSender = require('../src/messageSender/FacebookMessageSender.js'),
-    MessageConsumer = require('../src/MessageConsumer/MessageConsumer.js');
+    MessageConsumer = require('../src/messageConsumer/MessageConsumer.js'),
+    IAMessageConsumer = require('../src/messageConsumer/IAMessageConsumer.js');
 
 
 var helloMessageData =
@@ -94,6 +95,7 @@ var imageMessageData =
 
 var sender = new FacebookMessageSender();
 var consumer = new MessageConsumer(sender);
+var iaConsumer = new IAMessageConsumer(sender);
 sender.sendTextMessage(1017776525008546, "###########################################################################################################################################################################################################################################");
 
 setTimeout(function () {
