@@ -153,7 +153,7 @@ FacebookMessageSender.prototype.sendMessage = function (messageData) {
         } else {
             console.error("Unable to send message."+JSON.stringify(self.messageData));
             var stack = new Error().stack;
-            console.log( stack );
+            console.error( stack );
         }
     });
 };
@@ -420,7 +420,6 @@ FacebookMessageSender.prototype.sendTextMessage = function(recipientId, messageT
         },
         message: {
             text: messageText,
-            metadata: "DEVELOPER_DEFINED_METADATA"
         }
     };
     self.sendMessage(messageData);

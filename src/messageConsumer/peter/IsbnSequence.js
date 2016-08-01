@@ -42,6 +42,8 @@ IsbnSequence.prototype.run = function (recipientId, message, peter) {
 
             History.get(recipientId).lastOutput = 'isbn';
             return;
+        }else{
+            self.speak(recipientId,peter);
         }
     }
     if (self.nextSequence != undefined) {
