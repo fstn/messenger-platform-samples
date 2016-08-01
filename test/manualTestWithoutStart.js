@@ -106,16 +106,16 @@ setTimeout(function () {
 setTimeout(function () {
     sender.sendTextMessage(1017776525008546, "echo isbnMessageData");
     consumer.consumeMessage(isbnMessageData)
-}, 2000);
+}, 3000);
 
 setTimeout(function () {
     sender.sendTextMessage(1017776525008546, "echo pageMessageData");
     consumer.consumeMessage(pageMessageData)
-}, 2500);
+}, 4000);
 setTimeout(function () {
     sender.sendTextMessage(1017776525008546, "echo exMessageData");
     consumer.consumeMessage(exMessageData)
-}, 3000);
+}, 5000);
 setTimeout(function () {
     sender.sendTextMessage(1017776525008546, "echo imageMessageData");
     consumer.consumeMessage(imageMessageData)

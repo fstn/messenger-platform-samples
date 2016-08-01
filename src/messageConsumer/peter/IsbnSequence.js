@@ -39,11 +39,10 @@ IsbnSequence.prototype.run = function (recipientId, message, peter) {
                 self.nextSequence.speak(recipientId,peter);
             }
             //TODO text = text.replace("#NAME#", History.get(recipientId).user.first_name);
-
-            History.get(recipientId).lastOutput = 'isbn';
             return;
         }else{
             self.speak(recipientId,peter);
+            return;
         }
     }
     if (self.nextSequence != undefined) {
@@ -52,6 +51,7 @@ IsbnSequence.prototype.run = function (recipientId, message, peter) {
 };
 
 IsbnSequence.prototype.speak = function (recipientId,peter){
+    var self = this;
     var text = Text.get("hello");
     self.messageSender.sendTextMessage(recipientId, text);
 };

@@ -34,6 +34,9 @@ PageSequence.prototype.run = function (recipientId, message, peter) {
                 self.nextSequence.speak(recipientId,peter);
             }
             return;
+        }else{
+            self.speak(recipientId,peter);
+            return;
         }
     }
     if (self.nextSequence != undefined) {
