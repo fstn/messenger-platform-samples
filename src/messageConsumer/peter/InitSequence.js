@@ -26,7 +26,7 @@ InitSequence.prototype.run = function (recipientId, message, peter) {
     var text = "";
     var match = false;
     if (message.text != undefined && (message.text.indexOf("reset")!=-1||message.text.indexOf("start")!=-1||message.text.indexOf("commence")!=-1||message.text.indexOf("commencer")!=-1)) {
-        History.clear();
+        History.clear(recipientId);
         self.messageSender.sendMessageData(recipientId, Message.get("welcome_message"));
         return;
     }
