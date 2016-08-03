@@ -87,7 +87,6 @@ LearningSequence.prototype.run = function (recipientId, message, peter) {
 
 LearningSequence.prototype.speak = function (recipientId,peter){
     var self = this;
-    var text = Text.get("learnMe");
-    self.messageSender.sendTextMessage(recipientId,text);
+
 };
 
