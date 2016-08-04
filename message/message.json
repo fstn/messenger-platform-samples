@@ -20,7 +20,8 @@
           }
         ]
       }
-    },
+    }
+  },
     "result_message": {
       "attachment": {
         "type": "template",
@@ -53,5 +54,4 @@
         }
       }
     }
-  }
 }
