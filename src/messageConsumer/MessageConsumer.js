@@ -95,6 +95,7 @@ MessageConsumer.prototype.consumePostback = function (event) {
 
 MessageConsumer.prototype.start = function(senderId){
     var self = this;
+    History.clear(senderId);
     History.get(senderId).lastOutput = 'isbn';
     self.messageSender.sendTextMessage(senderId,Text.get("hello"));
     self.messageSender.sendImageMessage(senderId, IMAGE_URL +"assets/img/isbn.jpg");
@@ -159,9 +160,10 @@ MessageConsumer.prototype.consumeMessage = function(event) {
     var timeOfMessage = event.timestamp;
     var message = event.message;
 
-    Logger.log(event);
+    if(message.is_echo == undefined || !message.is_echo) {
+        Logger.log(event);
         //var messageAttachments = message.attachments;
-        if ( History.get(senderId) == undefined || History.get(senderId).user == undefined ) {
+        if (History.get(senderId) == undefined || History.get(senderId).user == undefined) {
             self.messageSender.getUserData(senderId, function (user) {
                 History.clear(senderId);
                 History.get(senderId).user = user;
@@ -175,6 +177,9 @@ MessageConsumer.prototype.consumeMessage = function(event) {
             self.ia.consumeMessage(senderId, message);
             History.get(senderId).nbMessage++;
         }
+    }else{
+        console.log("Ignoring echo");
+    }
 };
 
 

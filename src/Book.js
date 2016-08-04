@@ -16,7 +16,7 @@ Book.prototype.fileExists = function (isbn, page, ex){
     var self = this;
     var result = false;
     try {
-        self.db.getData("books/" + isbn + "/" + page);
+        self.db.getData("/books/" + isbn + "/" + page);
         result = true;
     } catch (error) {
         /**
@@ -29,12 +29,28 @@ Book.prototype.fileExists = function (isbn, page, ex){
     return result;
 };
 
+Book.prototype.getFile = function (isbn, page, ex){
+    var self = this;
+    var result;
+    try {
+        result = self.db.getData("/books/" + isbn + "/" + page)+".jpg";
+    } catch (error) {
+        /**
+         * This book and page is already present in to do list, just add to put user information
+         */
+        if (!error.message.startsWith("Can't find dataPath:")) {
+            throw error;
+        }
+    }
+    return result;
+}
+
 Book.prototype.getTeacherImageUrl = function (isbn, page, ex) {
     var self = this;
-    url = IMAGE_URL + "/teacher/" + isbn + "/" + isbn + "-" + this.book.mapping[isbn][page] + ".jpg"
+    return IMAGE_URL + "teacher/" + isbn + "/" + isbn + "-" + self.getFile(isbn,page,ex);
 };
 
 Book.prototype.getStudentImageUrl = function (isbn, page, ex) {
     var self = this;
-    url = IMAGE_URL + "/student/" + isbn + "/" + isbn + "-" + this.book.mapping[isbn][page] + ".jpg"
+    return IMAGE_URL + "student/" + isbn + "/" + isbn + "-" + self.getFile(isbn,page,ex);
 };

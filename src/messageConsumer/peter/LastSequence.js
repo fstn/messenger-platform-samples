@@ -30,6 +30,7 @@ LastSequence.prototype.run = function (recipientId, message, peter) {
     if (message.text != undefined && History.get(recipientId).page != "" && History.get(recipientId).ex != "" && History.get(recipientId).isbn != "") {
         History.get(recipientId).lastOutput = '';
         var text = "";
+        var url;
         text = Text.get("result");
         text = text.replace("#ISBN#", History.get(recipientId).isbn);
         text = text.replace("#PAGE#", History.get(recipientId).page);
