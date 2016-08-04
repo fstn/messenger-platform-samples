@@ -88,7 +88,7 @@ MessageConsumer.prototype.consumePostback = function (event) {
         }
         if (payload.message) {
             //TODO search messageData
-            self.messageSender.sendMessage(messageData);
+            self.messageSender.sendMessageData(senderId,messageData);
         }
 
 };

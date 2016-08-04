@@ -33,6 +33,11 @@
               "type": "postback",
               "title": "#restart_btn#",
               "payload": "{action:start}"
+            },
+            {
+              "type": "postback",
+              "title": "#end_btn#",
+              "payload": "{message:bye_message}"
             }
           ]
         }
@@ -53,5 +58,13 @@
           ]
         }
       }
-    }
+    },
+  "bye_message": {
+      "attachment": {
+        "type": "image",
+        "payload": {
+          "url": "https://media.giphy.com/media/G5h04AkAvAHcs/giphy.gif"
+        }
+      }
+  }
 }

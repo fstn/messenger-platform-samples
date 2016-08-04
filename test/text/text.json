@@ -22,6 +22,7 @@
     "Désolé mais il semblerait que ton livre ne soit pas encore dans ma base de données. N’hésite pas à réessayer plus tard ou à m’envoyer les exercices que tu as dans d’autres matières !"],
   "start": ["Demarrer"],
   "restart_btn": ["Recommencer"],
+  "end_btn": ["J'ai terminé"],
   "thanksToHelpMe": ["Merci"],
   "waitPlease": ["Bien reçu ! Je reviens dans un instant."]
 
