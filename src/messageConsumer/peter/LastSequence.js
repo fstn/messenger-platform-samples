@@ -44,11 +44,13 @@ LastSequence.prototype.run = function (recipientId, message, peter) {
             url = self.book.getTeacherImageUrl(History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex);
             History.clear(recipientId);
 
-            self.messageSender.ssendTypingOn();
+            self.messageSender.ssendTypingOn(recipientId);
             setTimeout(function () {
                 text = Text.get("needMoreTime");
                 self.messageSender.sendImageMessage(recipientId, url);
-                self.messageSender.sendMessageData(recipientId,Message.get("result_message"));
+                setTimeout(function () {
+                    self.messageSender.sendMessageData(recipientId, Message.get("result_message"));
+                },10000);
             }, 5000);
         } else {
             text = Text.get("needMoreTime");
