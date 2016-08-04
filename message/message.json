@@ -32,12 +32,12 @@
             {
               "type": "postback",
               "title": "#restart_btn#",
-              "payload": "{action:start}"
+              "payload": "{\"action\":\"self.start(senderId)\"}"
             },
             {
               "type": "postback",
               "title": "#end_btn#",
-              "payload": "{message:bye_message}"
+              "payload": "{\"message\":\"bye_message\"}"
             }
           ]
         }

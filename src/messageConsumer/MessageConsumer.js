@@ -87,7 +87,7 @@ MessageConsumer.prototype.consumePostback = function (event) {
             eval(payload.action);
         }
         if (payload.message) {
-            //TODO search messageData
+            var messageData = Message.get(payload.message);
             self.messageSender.sendMessageData(senderId,messageData);
         }
 
