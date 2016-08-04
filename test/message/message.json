@@ -20,20 +20,28 @@
           }
         ]
       }
-    },
-    "result_message": {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "button",
-          "text": "#result#",
-          "buttons":[{
-            "type":"postback",
-            "title":"#restart_btn#",
-            "payload":"{action:start}"
-          }]
-        }
+    }
+  },
+  "result_message": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "button",
+        "text": "#result#",
+        "buttons": [
+          {
+            "type": "postback",
+            "title": "#restart_btn#",
+            "payload": "{\"action\":\"self.start(senderId)\"}"
+          },
+          {
+            "type": "postback",
+            "title": "#end_btn#",
+            "payload": "{\"message\":\"bye_message\"}"
+          }
+        ]
       }
+    }
   },
   "start_message": {
     "attachment": {
@@ -41,11 +49,21 @@
       "payload": {
         "template_type": "button",
         "text": "#explain#",
-        "buttons":[{
-          "type":"postback",
-          "title":"#start_btn#",
-          "payload":"{action:start}"
-        }]
+        "buttons": [
+          {
+            "type": "postback",
+            "title": "#start_btn#",
+            "payload": "{action:start}"
+          }
+        ]
+      }
+    }
+  },
+  "bye_message": {
+    "attachment": {
+      "type": "image",
+      "payload": {
+        "url": "https://media.giphy.com/media/G5h04AkAvAHcs/giphy.gif"
       }
     }
   }
