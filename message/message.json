@@ -20,7 +20,20 @@
           }
         ]
       }
-    }
+    },
+    "result_message": {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "button",
+          "text": "#result#",
+          "buttons":[{
+            "type":"postback",
+            "title":"#restart_btn#",
+            "payload":"{action:start}"
+          }]
+        }
+      }
   },
   "start_message": {
     "attachment": {

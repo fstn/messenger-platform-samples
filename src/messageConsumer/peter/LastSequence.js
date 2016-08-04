@@ -12,6 +12,7 @@ const
 function LastSequence() {
     var self = this;
     self.book = new Book();
+    self.message = new Message();
 };
 
 LastSequence.prototype.setMessageSender = function (messageSender) {
@@ -46,17 +47,14 @@ LastSequence.prototype.run = function (recipientId, message, peter) {
 
             self.messageSender.ssendTypingOn();
             setTimeout(function () {
-                self.messageSender.ssendTypingOff()
-            }, 2000);
-            setTimeout(function () {
+                text = Text.get("needMoreTime");
                 self.messageSender.sendImageMessage(recipientId, url);
+                self.messageSender.sendMessageData(recipientId,self.message.get("result_message"));
             }, 5000);
         } else {
             text = Text.get("needMoreTime");
             self.messageSender.ssendTypingOn(recipientId);
-            setTimeout(function () {
-                self.messageSender.ssendTypingOff(recipientId)
-            }, 2000);
+
             setTimeout(function () {
                 self.messageSender.sendTextMessage(recipientId, text);
             }, 5000);
