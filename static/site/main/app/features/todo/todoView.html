@@ -6,4 +6,12 @@
             <img class="col-xs-6" src="{{$ctrl.IMAGE_URL+todoContent.files[0].url}}"/>
         </div>
     </div>
+    {{$ctrl.seclectedPages}}
+    <div>
+        <span ng-repeat="page in $ctrl.pages">
+            <span afkl-lazy-image="{{$ctrl.IMAGE_URL+'/'+page.url}}" class="afkl-lazy-wrapper afkl-img-ratio-3-2"
+                  ng-class="page.class" style="height:200px" ng-click="$ctrl.selectPage(page)"/>
+        </span>
+    </div>
+
 </div>

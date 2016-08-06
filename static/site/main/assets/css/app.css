@@ -11,3 +11,12 @@
 .width-300 {
     width: 300px;
 }
+
+.selected-page img{
+    border: 5px solid blue;
+}
+
+.afkl-lazy-wrapper img{
+    height:600px;
+    cursor: pointer;
+}

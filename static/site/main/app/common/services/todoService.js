@@ -5,8 +5,8 @@
 'use strict';
 
 angular.module('Peter')
-    .factory('Todo', ['$resource',
-        function($resource){
-            return $resource('https://webhookpeter.herokuapp.com/todo/books');
+    .factory('Todo', ['$resource','Config',
+        function($resource,Config){
+            return $resource(Config.URL+'/todo/books');
         }]
     );
