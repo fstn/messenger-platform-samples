@@ -53,11 +53,23 @@ BookService.prototype.listAvailablePages = function(){
         walker.on('file', function(root, stat, next) {
             // Add this file to the list of files
             root = root.replace("./","");
-            files.push({url:root + stat.name});
+            var pathSplitByDash = stat.name.split("-");
+            var page = pathSplitByDash[pathSplitByDash.length-1].split(".")[0];
+            files.push({url:root + stat.name,page:parseInt(page)});
             next();
         });
 
         walker.on('end', function() {
+
+            files.sort(function(a, b) {
+
+                if (a.page > b.page)
+                    return 1;
+                if (a.page < b.page)
+                    return -1;
+                // a doit être égale à b
+                return 0;
+            });
             res.json(files);
         });
 

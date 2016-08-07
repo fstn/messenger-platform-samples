@@ -1,0 +1,23 @@
+<div class="top-filter" >
+    <div class="col-xs-10">
+        <rzslider rz-slider-model="$ctrl.slider.min"
+                  rz-slider-high="$ctrl.slider.max"
+                  rz-slider-options="$ctrl.slider.options"></rzslider>
+    </div>
+    <div class="col-xs-2">
+        <button style="width: 100%" class="btn btn-primary" ng-click="$ctrl.updateContent()">Search</button>
+    </div>
+</div>
+<div class="container-fluid" style="height: 100%;"/>
+    {{$ctrl.seclectedPages}}
+
+    <div style="height: 100%">
+        <span ng-repeat="page in $ctrl.pagesToShow">
+            <span afkl-lazy-image="{{$ctrl.IMAGE_URL+'/'+page.url}}" class="afkl-lazy-wrapper afkl-img-ratio-3-2"
+                  ng-class="page.class" style="height:200px" ng-click="$ctrl.selectPage(page)"/>
+        </span>
+    </div>
+</div>
+<div class="footer">
+    <button class="btn btn-primary" ng-click="$ctrl.saveMapping()">Save</button>
+</div>

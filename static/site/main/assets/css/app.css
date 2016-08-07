@@ -12,11 +12,35 @@
     width: 300px;
 }
 
-.selected-page img{
-    border: 5px solid blue;
+.afkl-lazy-wrapper.selected-page img{
+    border: 3px solid blue;
 }
 
 .afkl-lazy-wrapper img{
     height:600px;
+    min-width: 100px;
     cursor: pointer;
+    border: 3px solid #eee;
+    margin-bottom: 3px;
+}
+
+.footer{
+
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+    background-color: #eeeeee;
+    padding:10px;
+    text-align: right;
+}
+
+.top-filter{
+    background-color: #eeeeee;
+    height: 80px;
+    width: 100%;
+    position: fixed;
+    padding: 10px;
+    top: 0;
+    right: 0;
 }

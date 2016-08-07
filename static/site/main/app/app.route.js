@@ -9,6 +9,12 @@ angular.module('Peter').config(['$routeProvider',
                 controllerAs: '$ctrl',
                 title: 'TODO'
             })
+            .when('/mapping', {
+                templateUrl: 'app/features/mapping/mappingView.html',
+                controller: 'MappingController',
+                controllerAs: '$ctrl',
+                title: 'MAPPING'
+            })
             .otherwise({
                 redirectTo: '/todo'
             });
