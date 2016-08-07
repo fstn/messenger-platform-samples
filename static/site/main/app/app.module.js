@@ -9,8 +9,8 @@ angular.module('Peter', [
     'rzModule'
     ])
     .constant("Config",{
-          //  "URL": "https://webhookpeter.herokuapp.com"
-            URL: "http://127.0.0.1:5000"
+            "URL": "https://webhookpeter.herokuapp.com"
+          //  URL: "http://127.0.0.1:5000"
         }
     )
     .run(['$rootScope', '$route', function ($rootScope, $route) {
