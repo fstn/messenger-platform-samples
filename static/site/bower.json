@@ -19,6 +19,8 @@
     "angular-resource": "^1.5.8",
     "ng-directive-lazy-image": "afkl-lazy-image#^0.3.1",
     "bootstrap": "^3.3.7",
-    "angularjs-slider": "^5.4.2"
+    "angularjs-slider": "^5.4.2",
+    "angular-translate-loader-partial": "^2.11.1",
+    "angular-translate-loader-static-files": "^2.11.1"
   }
 }

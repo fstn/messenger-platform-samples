@@ -2,15 +2,22 @@
 
 angular.module('Peter')
     .controller('MappingController', [
-            '$scope', 'Todo', 'Page','Config',
-            function ($scope, Todo, Page, Config) {
+            '$scope','$rootScope', 'Todo', 'Page','Config',
+            function ($scope,$rootScope, Todo, Page, Config) {
                 var self = this;
                 self.pagesToShow = [];
                 self.pages = [];
                 self.IMAGE_URL =  Config.URL;
-                self.pagesSet = ""
-                self.seclectedPages  = [];
-                Page.query({isbn:"9782218962004"},function(pages){
+                self.pagesSet = "";
+                self.selectedPages  = [];
+
+                self.pageToMap = $rootScope.selectPage;
+                self.isbnToMap = $rootScope.selectIsbn;
+
+                if(angular.isUndefined(self.isbnToMap)){
+                    self.isbnToMap="9782218962004";
+                }
+                Page.query({isbn:self.isbnToMap},function(pages){
                     self.pages= pages;
                     self.slider.options.ceil =  self.pages.length;
                 });
@@ -35,13 +42,13 @@ angular.module('Peter')
                 };
 
                 self.selectPage = function(page){
-                    var index = self.seclectedPages.indexOf(page);
+                    var index = self.selectedPages.indexOf(page);
                     if(index != -1){
                         page.class = "unSelected-page";
-                        self.seclectedPages.splice(index, 1);
+                        self.selectedPages.splice(index, 1);
                     }else{
                         page.class = "selected-page";
-                        self.seclectedPages.push(page)
+                        self.selectedPages.push(page)
                     }
                 }
         }]);

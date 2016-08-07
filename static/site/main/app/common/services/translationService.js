@@ -27,5 +27,13 @@
 
 angular.module('Peter')
     .service('TranslationService',
-    ['$q','$translate',function($q, $translate) {
-    }]);
+        ['$q','$translate','$translatePartialLoader', function($q, $translate, $translatePartialLoader) {
+            return function() {
+                $translatePartialLoader.addPart('global');
+                angular.forEach(arguments, function(translationKey) {
+                    $translatePartialLoader.addPart(translationKey);
+                });
+
+                return  $translate.refresh();
+            };
+        }]);

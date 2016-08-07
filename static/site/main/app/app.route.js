@@ -7,13 +7,23 @@ angular.module('Peter').config(['$routeProvider',
                 templateUrl: 'app/features/todo/todoView.html',
                 controller: 'TodoController',
                 controllerAs: '$ctrl',
-                title: 'TODO'
+                title: 'TODO',
+                resolve: {
+                    translationPart: [ 'TranslationService',function(TranslationService){
+                        return TranslationService('global');
+                    }]
+                }
             })
             .when('/mapping', {
                 templateUrl: 'app/features/mapping/mappingView.html',
                 controller: 'MappingController',
                 controllerAs: '$ctrl',
-                title: 'MAPPING'
+                title: 'MAPPING',
+                resolve: {
+                    translationPart: [ 'TranslationService',function(TranslationService){
+                        return TranslationService('global');
+                    }]
+                }
             })
             .otherwise({
                 redirectTo: '/todo'

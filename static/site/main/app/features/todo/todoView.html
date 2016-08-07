@@ -1,10 +1,10 @@
-<div class="row">
-
-    <div ng-repeat="(isbn,todoLine) in $ctrl.todos">
-
-        <h1><span>{{isbn}}</span></h1>
-        <div ng-repeat="(page,todoContent) in todoLine">
-            <button class="btn btn-primary" ng-click="$ctrl.selectTodo(page,isbn)">{{page}}</button>
+<div class="container-fluid">
+    <div class="row">
+        <div ng-repeat="(isbn,todoLine) in $ctrl.todos" class="col-xs-12">
+            <h1 class="col-xs-12"><span>ISBN:{{isbn}}</span></h1>
+            <button ng-repeat="(page,todoContent) in todoLine" class="btn btn-primary col-xs-12" style="margin:5px"
+                    ng-click="$ctrl.selectTodo(page,isbn)">Page:{{page}}</button>
+            </button>
         </div>
     </div>
 </div>
