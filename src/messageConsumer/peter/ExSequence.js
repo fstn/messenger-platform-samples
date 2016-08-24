@@ -35,7 +35,7 @@ ExSequence.prototype.run = function (recipientId, message, peter) {
                 self.nextSequence.speak(recipientId, peter);
             }
         }else{
-            self.speak(recipientId,peter);
+            self.speak(recipientId, peter);
             return;
         }
     }

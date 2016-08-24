@@ -54,15 +54,11 @@ LearningSequence.prototype.run = function (recipientId, message, peter) {
                             "url": path+recipientId + ".jpg",
                             "page": page
                         });
-                        if(History.get(recipientId).leaveMeAlone) {
-                            text = Text.get("leaveMeAlone");
-                            self.messageSender.sendTextMessage(recipientId, text);
-                        }else{
-                            text = Text.get("thanksToHelpMe");
-                            self.messageSender.sendTextMessage(recipientId, text);
-                            self.messageSender.sendGifMessage(recipientId, "https://media.giphy.com/media/LkjlH3rVETgsg/giphy.gif");
-                            History.get(recipientId).leaveMeAlone = true;
-                        }
+                        //TODO
+                        text = Text.get("thanksToHelpMe");
+                        self.messageSender.sendTextMessage(recipientId, text);
+                        self.messageSender.sendGifMessage(recipientId, "https://media.giphy.com/media/LkjlH3rVETgsg/giphy.gif");
+                        History.get(recipientId).leaveMeAlone = true;
 
                     } catch (error) {
                         /**
@@ -74,16 +70,17 @@ LearningSequence.prototype.run = function (recipientId, message, peter) {
                                 "files": [{"url": path+recipientId + ".jpg", "page": page}],
                                 "teacher": {"isbn": "", "page": ""}
                             });
+                            //TODO
                             text = Text.get("thanksToHelpMe");
                             self.messageSender.sendTextMessage(recipientId, text);
-                            self.messageSender.sendGifMessage(recipientId, "https://media.giphy.com/media/LkjlH3rVETgsg/giphy.gif")
+                            self.messageSender.sendGifMessage(recipientId, "https://media.giphy.com/media/LkjlH3rVETgsg/giphy.gif");
+                            History.get(recipientId).leaveMeAlone = true;
                         } else {
                             throw error;
                         }
                     }
                 });
             });
-            History.clear(recipientId);
             return;
     }
 

@@ -41,7 +41,7 @@ IsbnSequence.prototype.run = function (recipientId, message, peter) {
             //TODO text = text.replace("#NAME#", History.get(recipientId).user.first_name);
             return;
         }else{
-            self.speak(recipientId,peter);
+            self.speak(recipientId, peter);
             return;
         }
     }

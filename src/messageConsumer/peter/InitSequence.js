@@ -30,6 +30,12 @@ InitSequence.prototype.run = function (recipientId, message, peter) {
         self.messageSender.sendMessageData(recipientId, Message.get("welcome_message"));
         return;
     }
+    if(History.get(recipientId).leaveMeAlone) {
+        text = Text.get("leaveMeAlone");
+        self.messageSender.sendTextMessage(recipientId, text);
+        History.resetTry(recipientId);
+        return;
+    }
     if (message.text != undefined ) {
         var isbnPattern = new RegExp("((?:[0-9]-?){10,20})", "i");
         var isbnMatcher = isbnPattern.exec(message.text);
