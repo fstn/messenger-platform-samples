@@ -54,9 +54,16 @@ LearningSequence.prototype.run = function (recipientId, message, peter) {
                             "url": path+recipientId + ".jpg",
                             "page": page
                         });
-                        text = Text.get("thanksToHelpMe");
-                        self.messageSender.sendTextMessage(recipientId, text);
-                        self.messageSender.sendGifMessage(recipientId, "https://media.giphy.com/media/LkjlH3rVETgsg/giphy.gif")
+                        if(History.get(recipientId).leaveMeAlone) {
+                            text = Text.get("leaveMeAlone");
+                            self.messageSender.sendTextMessage(recipientId, text);
+                        }else{
+                            text = Text.get("thanksToHelpMe");
+                            self.messageSender.sendTextMessage(recipientId, text);
+                            self.messageSender.sendGifMessage(recipientId, "https://media.giphy.com/media/LkjlH3rVETgsg/giphy.gif");
+                            History.get(recipientId).leaveMeAlone = true;
+                        }
+
                     } catch (error) {
                         /**
                          * This book and page is already present in to do list, just add to put user information
