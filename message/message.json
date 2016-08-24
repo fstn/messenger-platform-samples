@@ -63,7 +63,8 @@
       "attachment": {
         "type": "image",
         "payload": {
-          "url": "https://media.giphy.com/media/G5h04AkAvAHcs/giphy.gif"
+          "url": "https://media.giphy.com/media/G5h04AkAvAHcs/giphy.gif",
+          "text": "#bye#"
         }
       }
   }
