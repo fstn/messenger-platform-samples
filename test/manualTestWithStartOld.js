@@ -54,7 +54,7 @@ var isbnMessageData =
     }
     ,
     "timestamp": 1469595066596,
-    "message": {"mid": "mid.1467661761380:6e08038d213c268f13", "seq": 146, "text": "9782218962004"}
+    "message": {"mid": "mid.1467661761380:6e08038d213c268f13", "seq": 146, "text": "1235986598569"}
 };
 
 var pageMessageData =
@@ -68,7 +68,7 @@ var pageMessageData =
     }
     ,
     "timestamp": 1469595066596,
-    "message": {"mid": "mid.1467661761380:6e08038d213c268f13", "seq": 146, "text": "38"}
+    "message": {"mid": "mid.1467661761380:6e08038d213c268f13", "seq": 146, "text": "22"}
 };
 
 var exMessageData =
@@ -106,13 +106,10 @@ var imageMessageData =
 }
 };
 
-var byeMessageData = {"sender":{"id":"1228718113827026"},"recipient":{"id":"511815629028307"},"timestamp":1472062603876,"postback":{"payload":"{\"message\":\"bye_message\"}"}};
-
 
 var sender = new FacebookMessageSender();
 var consumer = new MessageConsumer(sender);
 sender.sendTextMessage(1228718113827026, "###########################################################################################################################################################################################################################################");
-
 
 setTimeout(function () {
     sender.sendTextMessage(1228718113827026, "echo authenticationMessageData");
@@ -141,10 +138,6 @@ setTimeout(function () {
     consumer.consumeMessage(imageMessageData)
 }, 12000);
 
-setTimeout(function () {
-    sender.sendTextMessage(1228718113827026, "echo byeMessage");
-    consumer.consumePostback(byeMessageData)
-}, 1000);
 /*
 consumer.consumeMessage(firstMessageData);
 setTimeout(function () {

@@ -61,9 +61,15 @@
   },
   "bye_message": {
     "attachment": {
-      "type": "image",
+      "type": "template",
       "payload": {
-        "url": "https://media.giphy.com/media/G5h04AkAvAHcs/giphy.gif"
+        "template_type":"generic",
+        "elements":[
+          {
+            "title": "#bye#",
+            "image_url": "https://media.giphy.com/media/G5h04AkAvAHcs/giphy.gif"
+          }
+        ]
       }
     }
   }

@@ -60,12 +60,17 @@
       }
     },
   "bye_message": {
-      "attachment": {
-        "type": "image",
-        "payload": {
-          "url": "https://media.giphy.com/media/G5h04AkAvAHcs/giphy.gif",
-          "text": "#bye#"
-        }
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type":"generic",
+        "elements":[
+          {
+            "title": "#bye#",
+            "image_url": "https://media.giphy.com/media/G5h04AkAvAHcs/giphy.gif"
+          }
+        ]
       }
+    }
   }
 }
