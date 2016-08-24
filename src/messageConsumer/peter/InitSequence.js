@@ -67,7 +67,7 @@ InitSequence.prototype.run = function (recipientId, message, peter) {
         }
         if (
             match == true) {
-            return;
+            //return;
         }
     }
     if (self.nextSequence != undefined) {

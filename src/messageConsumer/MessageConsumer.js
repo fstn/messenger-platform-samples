@@ -159,6 +159,7 @@ MessageConsumer.prototype.consumeMessage = function(event) {
     var recipientId = event.recipient.id;
     var timeOfMessage = event.timestamp;
     var message = event.message;
+    var match = false;
 
     if(message.is_echo == undefined || !message.is_echo) {
         Logger.log(event);
@@ -168,14 +169,90 @@ MessageConsumer.prototype.consumeMessage = function(event) {
                 History.clear(senderId);
                 History.get(senderId).user = user;
                 console.log("Reply for " + senderId + ", " + History.get(senderId).nbMessage);
-                self.ia.consumeMessage(senderId, message);
+                var isbnPattern = new RegExp("((?:[0-9]-?){10,20})", "i");
+                var isbnMatcher = isbnPattern.exec(message.text);
+                if (isbnMatcher != null && isbnMatcher.length > 1) {
+                    var tmpIsbn = isbnMatcher[1];
+                    //message.text = message.text.replace(isbnMatcher[1],"");
+                    tmpIsbn = tmpIsbn.replace(/-/g, "");
+                    tmpIsbn = tmpIsbn.replace(' ', '');
+                    History.get(recipientId).isbn = tmpIsbn;
+                    console.log("ISBN Number is valid and number is : " + tmpIsbn);
+                    History.resetTry(recipientId);
+                    match = true;
+                }
+                var pagePattern = new RegExp("(?:(?:page)|(?:p)|(?:P))[^0-9]*([0-9]{1,3})", "i");
+                var pageMatcher = pagePattern.exec(message.text);
+                if (pageMatcher != null && pageMatcher.length > 1) {
+                    //message.text = message.text.replace(pageMatcher[1],"");
+                    History.get(recipientId).page = pageMatcher[1];
+                    console.log("Page Number is valid and number is : " + pageMatcher[1]);
+                    History.resetTry(recipientId);
+                    match = true;
+                }else{
+                    match = false;
+                }
+                var exPattern = new RegExp("(?:(?:ex)|(?:Ex)|(?:exo)|(?:Exo)|(?:Exercice))[^0-9]*([0-9]{1,3})", "i");
+                var exMatcher = exPattern.exec(message.text);
+                if (exMatcher != null && exMatcher.length > 1) {
+                    //message.text = message.text.replace(exMatcher[1],"");
+                    History.get(recipientId).ex = exMatcher[1];
+                    console.log("Exercice Number is valid and number is : " + exMatcher[1]);
+                    History.resetTry(recipientId);
+                    match = true;
+                }else{
+                    match = false;
+                }
                 History.get(senderId).nbMessage++;
+                if(match) {
+                    self.peter.consumeMessage(senderId, message);
+                }else{
+                    self.ia.consumeMessage(senderId, message);
+                }
             });
 
         } else {
             console.log("Reply for " + senderId + ", " + History.get(senderId).nbMessage);
-            self.ia.consumeMessage(senderId, message);
+            var isbnPattern = new RegExp("((?:[0-9]-?){10,20})", "i");
+            var isbnMatcher = isbnPattern.exec(message.text);
+            if (isbnMatcher != null && isbnMatcher.length > 1) {
+                var tmpIsbn = isbnMatcher[1];
+                //message.text = message.text.replace(isbnMatcher[1],"");
+                tmpIsbn = tmpIsbn.replace(/-/g, "");
+                tmpIsbn = tmpIsbn.replace(' ', '');
+                History.get(recipientId).isbn = tmpIsbn;
+                console.log("ISBN Number is valid and number is : " + tmpIsbn);
+                History.resetTry(recipientId);
+                match = true;
+            }
+            var pagePattern = new RegExp("(?:(?:page)|(?:p)|(?:P))[^0-9]*([0-9]{1,3})", "i");
+            var pageMatcher = pagePattern.exec(message.text);
+            if (pageMatcher != null && pageMatcher.length > 1) {
+                //message.text = message.text.replace(pageMatcher[1],"");
+                History.get(recipientId).page = pageMatcher[1];
+                console.log("Page Number is valid and number is : " + pageMatcher[1]);
+                History.resetTry(recipientId);
+                match = true;
+            }else{
+                match = false;
+            }
+            var exPattern = new RegExp("(?:(?:ex)|(?:Ex)|(?:exo)|(?:Exo)|(?:Exercice))[^0-9]*([0-9]{1,3})", "i");
+            var exMatcher = exPattern.exec(message.text);
+            if (exMatcher != null && exMatcher.length > 1) {
+                //message.text = message.text.replace(exMatcher[1],"");
+                History.get(recipientId).ex = exMatcher[1];
+                console.log("Exercice Number is valid and number is : " + exMatcher[1]);
+                History.resetTry(recipientId);
+                match = true;
+            }else{
+                match = false;
+            }
             History.get(senderId).nbMessage++;
+            if(match) {
+                self.peter.consumeMessage(senderId, message);
+            }else{
+                self.ia.consumeMessage(senderId, message);
+            }
         }
     }else{
         console.log("Ignoring echo");
