@@ -31,14 +31,9 @@ LastSequence.prototype.run = function (recipientId, message, peter) {
         History.get(recipientId).lastOutput = '';
         var text = "";
         var url;
-        text = Text.get("result");
-        text = text.replace("#ISBN#", History.get(recipientId).isbn);
-        text = text.replace("#PAGE#", History.get(recipientId).page);
-        text = text.replace("#EX#", History.get(recipientId).ex);
-        text += Text.get("isOk");
-
+        
         text = Text.get("waitPlease");
-        self.messageSender.sendTextMessage(recipientId, text);
+        self.messageSender.sendMessageData(recipientId, text);
 
         if (self.book.fileExists(History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex)) {
             url = self.book.getTeacherImageUrl(History.get(recipientId).isbn, History.get(recipientId).page, History.get(recipientId).ex);

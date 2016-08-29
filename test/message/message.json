@@ -22,27 +22,6 @@
       }
     }
   },
-  "result_message": {
-    "attachment": {
-      "type": "template",
-      "payload": {
-        "template_type": "button",
-        "text": "#result#",
-        "buttons": [
-          {
-            "type": "postback",
-            "title": "#restart_btn#",
-            "payload": "{\"action\":\"self.start(senderId)\"}"
-          },
-          {
-            "type": "postback",
-            "title": "#end_btn#",
-            "payload": "{\"message\":\"bye_message\"}"
-          }
-        ]
-      }
-    }
-  },
   "start_message": {
     "attachment": {
       "type": "template",
@@ -59,6 +38,67 @@
       }
     }
   },
+  "result_message": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "button",
+        "text": "#result#",
+        "buttons": [
+          {
+            "type": "postback",
+            "title": "#yes_btn#",
+            "payload": "{\"message\":\"seeYouSoon_message\"}"
+          },
+          {
+            "type": "postback",
+            "payload": "{\"message\":\"howCanIHelpYou_message\"}",
+            "title": "#no_btn#"
+          }
+        ]
+      }
+    }
+  },
+  "seeYouSoon_message": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "elements": [
+          {
+            "title": "#byeAndHelpMe#",
+            "image_url": "http://media1.giphy.com/media/cHDi1qNyDvRUA/giphy.gif"
+          }
+        ]
+      }
+    }
+  },
+  "howCanIHelpYou_message": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "button",
+        "text": "#howCanIHelpYou#",
+        "buttons": [
+          {
+            "type": "postback",
+            "title":"#restart_btn#",
+            "payload":"{\"action\":\"self.start(senderId)\"}"
+          },
+          {
+            "type": "postback",
+            "title":"#talkHuman_btn#",
+            "payload":"{\"action\":\"self.speechToHuman(senderId)\"}"
+          },
+          {
+            "type": "postback",
+            "title":"#end_btn#",
+            "payload": "{\"message\":\"bye_message\"}"
+          }
+        ]
+      }
+    }
+  },
   "bye_message": {
     "attachment": {
       "type": "template",
@@ -67,7 +107,7 @@
         "elements":[
           {
             "title": "#bye#",
-            "image_url": "https://media.giphy.com/media/G5h04AkAvAHcs/giphy.gif"
+            "image_url": "http://media1.giphy.com/media/cHDi1qNyDvRUA/giphy.gif"
           }
         ]
       }
