@@ -23,7 +23,7 @@
   "no_btn": ["Non"],
   "restart_btn": ["Recommencer"],
   "end_btn": ["J’ai terminé"],
-  "talkHuman_btn": ["Parler à un humain :)"],
+  "talkHuman_btn": ["Parler à un humain"],
   "howCanIHelpYou": ["Oups ! Comment puis-je t’aider ?"],
   "byeAndHelpMe": ["À ton service ! N'hésite pas à parler de moi à tes amis pour m'aider à grandir. À bientôt :wave:"],
   "thanksToHelpMe": ["Merci ! Je pars à la recherche de ta solution et te l'envoie dès que l'ai trouvée"],
