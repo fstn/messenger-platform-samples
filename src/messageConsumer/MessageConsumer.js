@@ -257,7 +257,7 @@ MessageConsumer.prototype.consumeMessage = function(event) {
     }else{
         if(message.attachments!= undefined && message.attachments.length>0){
             History.clear(recipientId);
-            self.messageSender.sendMessage(recipientId,Message.get("result_message"))
+            self.messageSender.sendMessageData(recipientId,Message.get("result_message"))
         }
         console.log("Ignoring echo");
     }
