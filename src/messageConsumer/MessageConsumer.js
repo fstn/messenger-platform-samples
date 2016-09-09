@@ -255,7 +255,10 @@ MessageConsumer.prototype.consumeMessage = function(event) {
             }
         }
     }else{
-        History.clear(recipientId);
+        if(message.attachments.length>0){
+            History.clear(recipientId);
+            self.messageSender.sendTextMessage(Text.get("result"))
+        }
         console.log("Ignoring echo");
     }
 };
