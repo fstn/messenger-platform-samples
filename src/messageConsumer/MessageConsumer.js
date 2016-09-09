@@ -255,7 +255,7 @@ MessageConsumer.prototype.consumeMessage = function(event) {
             }
         }
     }else{
-        if(message.attachments.length>0){
+        if(message.attachments!= undefined && message.attachments.length>0){
             History.clear(recipientId);
             self.messageSender.sendTextMessage(Text.get("result"))
         }
