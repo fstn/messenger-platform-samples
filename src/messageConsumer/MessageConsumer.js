@@ -255,6 +255,7 @@ MessageConsumer.prototype.consumeMessage = function(event) {
             }
         }
     }else{
+        History.clear(recipientId);
         console.log("Ignoring echo");
     }
 };
