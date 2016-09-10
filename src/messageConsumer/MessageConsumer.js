@@ -266,11 +266,12 @@ MessageConsumer.prototype.consumeMessage = function(event) {
          */
         if (message.app_id == undefined) {
             if (message.text == "ok je te laisse avec Peter") {
-                History.get(senderId).speechToHuman = false;
+                History.get(recipientId).speechToHuman = false;
+                self.messageSender.sendMessage(recipientId,Text.get("hello"));
             }
             if (message.attachments != undefined && message.attachments.length > 0 && message.app_id == undefined) {
 
-                if (History.get(senderId).speechToHuman) {
+                if (History.get(recipientId).speechToHuman) {
 
                     console.log("Ignoring message: speech to human is enable");
                     return
