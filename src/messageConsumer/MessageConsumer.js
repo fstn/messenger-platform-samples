@@ -160,7 +160,13 @@ MessageConsumer.prototype.consumeMessage = function(event) {
     var timeOfMessage = event.timestamp;
     var message = event.message;
     var match = false;
-
+    /**
+     * Disable peter if people want's to speeak with human
+     */
+    if(History.get(senderId).speechToHuman){
+        console.log("Ignoring message: speech to human is enable");
+        return
+    }
     if(message.is_echo == undefined || !message.is_echo) {
         Logger.log(event);
         //var messageAttachments = message.attachments;
@@ -256,10 +262,26 @@ MessageConsumer.prototype.consumeMessage = function(event) {
         }
     }else{
         if(  message.attachments!= undefined && message.attachments.length>0){
-            if(message.attachments[0].payload != undefined && message.attachments[0].payload.url != undefined &&message.attachments[0].payload.url.startsWith("https://scontent")){
+            if (message.app_id == undefined) {
+
+                if(History.get(senderId).speechToHuman){
+                    /**
+                     * Reenable peter
+                     */
+                    if(message.text == "ok je te laisse avec Peter"){
+                        History.get(senderId).speechToHuman = false;
+                    }
+
+                    console.log("Ignoring message: speech to human is enable");
+                    return
+                }
+
                 History.clear(recipientId);
-                self.messageSender.sendMessageData(recipientId,Message.get("result_message"));
-            }else {
+                if(message.attachments[0].payload != undefined && message.attachments[0].payload.url != undefined &&message.attachments[0].payload.url.startsWith("https://scontent")){
+                    self.messageSender.sendMessageData(recipientId,Message.get("result_message"));
+                }
+            }
+            else {
                 console.log("Ignoring echo");
             }
         }else {
@@ -289,4 +311,9 @@ MessageConsumer.prototype.isFirstMessage = function(senderId){
 };
 
 
+MessageConsumer.prototype.speechToHuman = function(senderId){
+    var self = this; 
+    self.messageSender.sendMessageData(senderId,Message.get("search_human_message"));
+    return History.get(senderId).speechToHuman = true;
+};
 

@@ -112,5 +112,19 @@
         ]
       }
     }
+  },
+  "search_human_message": {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "elements": [
+          {
+            "title": "Je pars chercher un ami ;)",
+            "image_url": "https://media.giphy.com/media/slk4uWRtxT8g8/giphy.gif"
+          }
+        ]
+      }
+    }
   }
 }
