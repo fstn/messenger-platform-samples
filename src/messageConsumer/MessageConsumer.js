@@ -267,7 +267,7 @@ MessageConsumer.prototype.consumeMessage = function(event) {
         if (message.app_id == undefined) {
             if (message.text == "ok je te laisse avec Peter") {
                 History.get(recipientId).speechToHuman = false;
-                self.messageSender.sendMessage(recipientId,Text.get("hello"));
+                self.messageSender.sendTextMessage(recipientId,Text.get("hello"));
             }
             if (message.attachments != undefined && message.attachments.length > 0 && message.app_id == undefined) {
 
